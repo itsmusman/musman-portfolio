@@ -1,4 +1,4 @@
-# Portfolio React + Vite Project
+# Musman Portfolio
 
 ## Project info
 This is a modern portfolio site bootstrapped with React and Vite. Edit content in the `src/data` folder or page files in `src/pages`.
