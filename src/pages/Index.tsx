@@ -105,41 +105,45 @@ export default function Index() {
                 </div>
 
                 {/* Bio Content */}
-                <div className="flex-1 flex flex-col justify-center text-center lg:text-left">
-                  <p className="text-primary font-bold text-lg md:text-xl mb-4 tracking-wide">{profile.title}</p>
-                  <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-                    {profile.bio}
-                  </p>
+                <div className="flex-1 flex flex-col justify-center text-left lg:text-left">
+                  <p className="text-primary font-bold text-lg md:text-xl mb-4 tracking-wide text-center lg:text-left">{profile.title}</p>
+                  <ExpandableText 
+                    text={profile.bio}
+                    maxLength={150}
+                    className="text-muted-foreground leading-relaxed text-base md:text-lg"
+                    buttonClassName="text-sm md:text-base"
+                    mobileOnly={true}
+                  />
                 </div>
               </div>
 
               {/* Stats Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10">
-                <div className="flex items-center justify-center gap-4 p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mt-10">
+                <div className="flex items-center justify-center gap-3 p-4 md:p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
                   <div className="text-center">
-                    <p className="text-3xl md:text-4xl font-bold gradient-text">5+</p>
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide">Years Experience</p>
+                    <p className="text-2xl md:text-4xl font-bold gradient-text">5+</p>
+                    <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wide">Years Experience</p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-4 p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
+                <div className="flex items-center justify-center gap-3 p-4 md:p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
                   <div className="text-center">
-                    <p className="text-3xl md:text-4xl font-bold gradient-text">50+</p>
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide">Projects Completed</p>
+                    <p className="text-2xl md:text-4xl font-bold gradient-text">30+</p>
+                    <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wide">Projects Completed</p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-4 p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
+                <div className="flex items-center justify-center gap-3 p-4 md:p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors col-span-2 md:col-span-1">
                   <div className="text-center">
-                    <p className="text-3xl md:text-4xl font-bold gradient-text">30+</p>
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide">Happy Clients</p>
+                    <p className="text-2xl md:text-4xl font-bold gradient-text">10+</p>
+                    <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wide">Happy Clients</p>
                   </div>
                 </div>
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 justify-center mt-10">
-                <Button asChild size="lg" className="glow text-base px-8 h-12">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-10">
+                <Button asChild size="lg" className="glow text-base px-6 sm:px-8 h-12">
                   <Link to="/projects">
                     View My Work <ArrowRight className="ml-2" size={18} />
                   </Link>

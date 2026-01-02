@@ -32,7 +32,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="md:col-span-1 lg:col-span-2">
             <h3 className="font-bold text-base md:text-lg mb-4 md:mb-6">Quick Links</h3>
-            <ul className="space-y-3 md:space-y-4">
+            <ul className="grid grid-cols-2 gap-3 md:space-y-4 md:grid-cols-none">
               <li>
                 <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-2 group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary transition-colors" />

@@ -7,6 +7,7 @@ import Section from "@/components/layout/Section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import OptimizedImage from "@/components/ui/OptimizedImage";
+import ExpandableText from "@/components/ui/ExpandableText";
 import { projects } from "@/data/siteData";
 import { getProjectImages, getProjectMainImage } from "@/data/projectImages";
 import ProjectImageGallery from "@/components/projects/ProjectImageGallery";
@@ -132,9 +133,12 @@ export default function ProjectDetail() {
             >
               <h2 className="text-2xl font-semibold mb-6">About This Project</h2>
               <div className="glass-card p-8">
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  {project.description}
-                </p>
+                <ExpandableText 
+                  text={project.description}
+                  maxLength={250}
+                  className="text-lg"
+                  mobileOnly={true}
+                />
               </div>
             </motion.div>
 

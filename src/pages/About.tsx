@@ -5,6 +5,7 @@ import PublicLayout from "@/components/layout/PublicLayout";
 import Section from "@/components/layout/Section";
 import { Button } from "@/components/ui/button";
 import OptimizedImage from "@/components/ui/OptimizedImage";
+import ExpandableText from "@/components/ui/ExpandableText";
 import { profile, skills, timeline } from "@/data/siteData";
 
 export default function About() {
@@ -69,12 +70,16 @@ export default function About() {
                 </div>
 
                 {/* Bio Content */}
-                <div className="flex-1 text-center lg:text-left">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-2">{profile.name}</h2>
-                  <p className="text-primary font-semibold text-lg mb-6">{profile.title}</p>
-                  <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-                    {profile.bio}
-                  </p>
+                <div className="flex-1 text-left lg:text-left">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-2 text-center lg:text-left">{profile.name}</h2>
+                  <p className="text-primary font-semibold text-lg mb-6 text-center lg:text-left">{profile.title}</p>
+                  <ExpandableText 
+                    text={profile.bio}
+                    maxLength={180}
+                    className="text-muted-foreground leading-relaxed text-base md:text-lg"
+                    buttonClassName="text-sm md:text-base"
+                    mobileOnly={true}
+                  />
                 </div>
               </div>
 
@@ -147,26 +152,26 @@ export default function About() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-3">
               {skills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-medium">{skill.name}</span>
-                    <span className="text-muted-foreground text-sm">{skill.level}%</span>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="font-medium text-sm md:text-base">{skill.name}</span>
+                    <span className="text-muted-foreground text-xs md:text-sm">{skill.level}%</span>
                   </div>
-                  <div className="skill-bar">
+                  <div className="skill-bar h-1.5 md:h-2 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${skill.level}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1, delay: 0.2 + index * 0.1 }}
-                      className="skill-bar-fill"
+                      className="skill-bar-fill rounded-full"
                     />
                   </div>
                 </motion.div>
@@ -190,8 +195,8 @@ export default function About() {
             </div>
 
             <div className="relative">
-              {/* Timeline Line */}
-              <div className="absolute left-8 top-0 bottom-0 w-px bg-border" />
+              {/* Timeline Line - Positioned on left for mobile, adjusted for desktop */}
+              <div className="absolute left-2 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-primary/50 to-accent md:transform md:-translate-x-1/2" />
 
               {timeline.map((item, index) => (
                 <motion.div
@@ -200,19 +205,22 @@ export default function About() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="relative pl-20 pb-12 last:pb-0"
+                  className="relative pb-12 last:pb-0 md:grid md:grid-cols-2 md:gap-8 md:items-center"
                 >
                   {/* Timeline Dot */}
-                  <div className="absolute left-6 w-5 h-5 rounded-full bg-primary border-4 border-background" />
+                  <div className="absolute left-0 md:left-1/2 top-0 w-5 h-5 rounded-full bg-primary border-4 border-background md:transform md:-translate-x-1/2 shadow-lg" />
                   
-                  <div className="glass-card p-6">
-                    <div className="flex items-center gap-2 text-primary text-sm mb-2">
-                      <Calendar size={14} />
-                      {item.year}
+                  {/* Alternating layout for desktop */}
+                  <div className={`pl-12 md:pl-0 flex justify-center ${index % 2 === 0 ? 'md:text-right md:pr-8' : 'md:col-start-2 md:pl-8'}`}>
+                    <div className="glass-card p-5 md:p-6 hover:border-primary/50 transition-colors w-full md:w-auto">
+                      <div className="flex items-center gap-2 text-primary text-sm mb-2">
+                        <Calendar size={14} />
+                        {item.year}
+                      </div>
+                      <h3 className="text-lg md:text-xl font-semibold mb-1">{item.title}</h3>
+                      <p className="text-muted-foreground text-xs md:text-sm mb-3">{item.company}</p>
+                      <p className="text-muted-foreground text-sm">{item.description}</p>
                     </div>
-                    <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-3">{item.company}</p>
-                    <p className="text-muted-foreground">{item.description}</p>
                   </div>
                 </motion.div>
               ))}
