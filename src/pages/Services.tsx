@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Code, Palette, Zap, MessageSquare, Smartphone, Database } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
 import Section from "@/components/layout/Section";
+import MobileCarousel from "@/components/ui/MobileCarousel";
+import ExpandableText from "@/components/ui/ExpandableText";
 import { services } from "@/data/siteData";
 
 const iconMap: Record<string, any> = {
@@ -47,7 +49,33 @@ export default function Services() {
       {/* Services Grid */}
       <Section className="py-24">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {/* Mobile Carousel */}
+          <div className="md:hidden max-w-5xl mx-auto">
+            <MobileCarousel showDots={true} showArrows={false}>
+              {services.map((service, index) => {
+                const IconComponent = iconMap[service.icon] || Code;
+                return (
+                  <motion.div
+                    key={service.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="glass-card p-6 hover:border-primary/50 transition-all group cursor-default"
+                  >
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 transition-colors">
+                      <IconComponent className="text-primary" size={28} />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                    <ExpandableText text={service.description} maxLength={120} mobileOnly={true} />
+                  </motion.div>
+                );
+              })}
+            </MobileCarousel>
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden md:grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {services.map((service, index) => {
               const IconComponent = iconMap[service.icon] || Code;
               return (

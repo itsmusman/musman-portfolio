@@ -7,6 +7,8 @@ import PublicLayout from "@/components/layout/PublicLayout";
 import { Typewriter, TextReveal } from "@/components/ui/typewriter";
 import { Badge } from "@/components/ui/badge";
 import OptimizedImage from "@/components/ui/OptimizedImage";
+import MobileCarousel from "@/components/ui/MobileCarousel";
+import ExpandableText from "@/components/ui/ExpandableText";
 import { profile, services, projects } from "@/data/siteData";
 import { getProjectMainImage } from "@/data/projectImages";
 import profileImage from "@/assets/profile-pic.png";
@@ -210,7 +212,33 @@ export default function Index() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Mobile Carousel */}
+            <div className="md:hidden">
+              <MobileCarousel showDots={true} showArrows={false}>
+                {services.slice(0, 6).map((service, index) => {
+                  const IconComponent = iconMap[service.icon] || Code;
+                  return (
+                    <motion.div
+                      key={service.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="glass-card p-6 hover:border-primary/50 transition-all group"
+                    >
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 transition-colors">
+                        <IconComponent className="text-primary" size={28} />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                      <ExpandableText text={service.description} maxLength={120} mobileOnly={true} />
+                    </motion.div>
+                  );
+                })}
+              </MobileCarousel>
+            </div>
+
+            {/* Desktop Grid */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {services.slice(0, 6).map((service, index) => {
                 const IconComponent = iconMap[service.icon] || Code;
                 return (
@@ -254,7 +282,80 @@ export default function Index() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {/* Mobile Carousel */}
+            <div className="sm:hidden">
+              <MobileCarousel showDots={true} showArrows={false}>
+                {projects.slice(0, 4).map((project, index) => {
+                  const projectImage = getProjectMainImage(project.id);
+                  return (
+                    <motion.div
+                      key={project.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05 }}
+                      className="glass-card overflow-hidden group flex flex-col"
+                    >
+                      <Link to={`/projects/${project.id}`} className="block">
+                        <div className="aspect-[4/3] bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
+                          {projectImage ? (
+                            <OptimizedImage
+                              src={projectImage}
+                              alt={project.title}
+                              loading="lazy"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              skeletonClassName="rounded-none"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-4xl">
+                              💻
+                            </div>
+                          )}
+                          {project.featured && (
+                            <div className="absolute top-2 left-2">
+                              <Badge className="bg-primary text-primary-foreground text-xs">Featured</Badge>
+                            </div>
+                          )}
+                          {project.liveUrl && (
+                            <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
+                              <Button asChild size="sm" className="bg-primary/90 hover:bg-primary">
+                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                  Live Demo <ArrowRight className="ml-1" size={14} />
+                                </a>
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      </Link>
+                      <div className="p-5">
+                        <Link to={`/projects/${project.id}`}>
+                          <h3 className="font-semibold text-lg mb-2 hover:text-primary transition-colors">{project.title}</h3>
+                        </Link>
+                        <ExpandableText text={project.description} maxLength={100} mobileOnly={true} />
+                        <div className="flex flex-wrap gap-1.5 mt-4">
+                          {project.techStack?.slice(0, 3).map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {project.techStack && project.techStack.length > 3 && (
+                            <span className="px-2 py-0.5 rounded-md bg-muted text-muted-foreground text-xs">
+                              +{project.techStack.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </MobileCarousel>
+            </div>
+
+            {/* Desktop Grid */}
+            <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {projects.slice(0, 4).map((project, index) => {
                 const projectImage = getProjectMainImage(project.id);
                 return (

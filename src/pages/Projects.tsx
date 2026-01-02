@@ -7,6 +7,8 @@ import Section from "@/components/layout/Section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import OptimizedImage from "@/components/ui/OptimizedImage";
+import MobileCarousel from "@/components/ui/MobileCarousel";
+import ExpandableText from "@/components/ui/ExpandableText";
 import { projects } from "@/data/siteData";
 import { getProjectMainImage } from "@/data/projectImages";
 
@@ -44,86 +46,172 @@ export default function Projects() {
       <Section className="py-24">
         <div className="container mx-auto px-4">
           {projects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="glass-card overflow-hidden group"
-                >
-                  {/* Project Image - Clickable */}
-                  <Link to={`/projects/${project.id}`} className="block">
-                    <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 relative overflow-hidden">
-                      {(() => {
-                        const mainImage = getProjectMainImage(project.id);
-                        if (mainImage) {
-                          return (
-                            <OptimizedImage
-                              src={mainImage}
-                              alt={project.title}
-                              loading="lazy"
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                              skeletonClassName="rounded-none"
-                            />
-                          );
-                        }
-                        return (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-4xl">🚀</span>
-                          </div>
-                        );
-                      })()}
-                      {/* Featured Badge */}
-                      {project.featured && (
-                        <div className="absolute top-3 left-3">
-                          <Badge className="bg-primary text-primary-foreground">Featured</Badge>
+            <>
+              {/* Mobile Carousel */}
+              <div className="md:hidden">
+                <MobileCarousel showDots={true} showArrows={false}>
+                  {projects.map((project, index) => (
+                    <motion.div
+                      key={project.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="glass-card overflow-hidden group"
+                    >
+                      {/* Project Image - Clickable */}
+                      <Link to={`/projects/${project.id}`} className="block">
+                        <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 relative overflow-hidden">
+                          {(() => {
+                            const mainImage = getProjectMainImage(project.id);
+                            if (mainImage) {
+                              return (
+                                <OptimizedImage
+                                  src={mainImage}
+                                  alt={project.title}
+                                  loading="lazy"
+                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                  skeletonClassName="rounded-none"
+                                />
+                              );
+                            }
+                            return (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <span className="text-4xl">🚀</span>
+                              </div>
+                            );
+                          })()}
+                          {/* Featured Badge */}
+                          {project.featured && (
+                            <div className="absolute top-3 left-3">
+                              <Badge className="bg-primary text-primary-foreground">Featured</Badge>
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  </Link>
+                      </Link>
 
-                  {/* Project Info */}
-                  <div className="p-6">
-                    <Link to={`/projects/${project.id}`}>
-                      <h3 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">{project.title}</h3>
+                      {/* Project Info */}
+                      <div className="p-6">
+                        <Link to={`/projects/${project.id}`}>
+                          <h3 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">{project.title}</h3>
+                        </Link>
+                        <ExpandableText text={project.description} maxLength={100} mobileOnly={true} />
+                        
+                        {/* Tech Stack */}
+                        <div className="flex flex-wrap gap-2 mb-4 mt-4">
+                          {project.techStack?.slice(0, 4).map((tech) => (
+                            <Badge key={tech} variant="secondary" className="text-xs">
+                              {tech}
+                            </Badge>
+                          ))}
+                          {project.techStack && project.techStack.length > 4 && (
+                            <Badge variant="secondary" className="text-xs">
+                              +{project.techStack.length - 4}
+                            </Badge>
+                          )}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex items-center gap-3">
+                          <Button asChild variant="outline" size="sm">
+                            <Link to={`/projects/${project.id}`}>View Details</Link>
+                          </Button>
+                          {project.liveUrl && (
+                            <Button asChild size="sm" variant="ghost" className="gap-1">
+                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink size={14} /> Live
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </MobileCarousel>
+              </div>
+
+              {/* Desktop Grid */}
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {projects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ y: -5 }}
+                    className="glass-card overflow-hidden group"
+                  >
+                    {/* Project Image - Clickable */}
+                    <Link to={`/projects/${project.id}`} className="block">
+                      <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 relative overflow-hidden">
+                        {(() => {
+                          const mainImage = getProjectMainImage(project.id);
+                          if (mainImage) {
+                            return (
+                              <OptimizedImage
+                                src={mainImage}
+                                alt={project.title}
+                                loading="lazy"
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                skeletonClassName="rounded-none"
+                              />
+                            );
+                          }
+                          return (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <span className="text-4xl">🚀</span>
+                            </div>
+                          );
+                        })()}
+                        {/* Featured Badge */}
+                        {project.featured && (
+                          <div className="absolute top-3 left-3">
+                            <Badge className="bg-primary text-primary-foreground">Featured</Badge>
+                          </div>
+                        )}
+                      </div>
                     </Link>
-                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.description}</p>
-                    
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.techStack?.slice(0, 4).map((tech) => (
-                        <Badge key={tech} variant="secondary" className="text-xs">
-                          {tech}
-                        </Badge>
-                      ))}
-                      {project.techStack && project.techStack.length > 4 && (
-                        <Badge variant="secondary" className="text-xs">
-                          +{project.techStack.length - 4}
-                        </Badge>
-                      )}
-                    </div>
 
-                    {/* Actions */}
-                    <div className="flex items-center gap-3">
-                      <Button asChild variant="outline" size="sm">
-                        <Link to={`/projects/${project.id}`}>View Details</Link>
-                      </Button>
-                      {project.liveUrl && (
-                        <Button asChild size="sm" variant="ghost" className="gap-1">
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink size={14} /> Live
-                          </a>
+                    {/* Project Info */}
+                    <div className="p-6">
+                      <Link to={`/projects/${project.id}`}>
+                        <h3 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">{project.title}</h3>
+                      </Link>
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.description}</p>
+                      
+                      {/* Tech Stack */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.techStack?.slice(0, 4).map((tech) => (
+                          <Badge key={tech} variant="secondary" className="text-xs">
+                            {tech}
+                          </Badge>
+                        ))}
+                        {project.techStack && project.techStack.length > 4 && (
+                          <Badge variant="secondary" className="text-xs">
+                            +{project.techStack.length - 4}
+                          </Badge>
+                        )}
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex items-center gap-3">
+                        <Button asChild variant="outline" size="sm">
+                          <Link to={`/projects/${project.id}`}>View Details</Link>
                         </Button>
-                      )}
+                        {project.liveUrl && (
+                          <Button asChild size="sm" variant="ghost" className="gap-1">
+                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink size={14} /> Live
+                            </a>
+                          </Button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                  </motion.div>
+                ))}
+              </div>
+            </>
           ) : (
             <div className="text-center py-16">
               <p className="text-muted-foreground">No projects yet. Check back soon!</p>
