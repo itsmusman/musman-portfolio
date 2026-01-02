@@ -10,21 +10,18 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   plugins: [react(), imagetools()],
-  // Improve production chunking to avoid very large single bundles.
-  // This splits common/node_modules libraries into named vendor chunks.
+  // Simpler chunking to avoid cross-chunk dependency issues.
+  // Just separate React core from everything else to reduce main bundle.
   build: {
-    chunkSizeWarningLimit: 600, // raise threshold (KB) to reduce noisy warnings
+    chunkSizeWarningLimit: 800, // raise threshold (KB) to avoid warnings
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'vendor.react';
-            if (id.includes('framer-motion')) return 'vendor.motion';
-            if (id.includes('recharts')) return 'vendor.recharts';
-            if (id.includes('lucide-react')) return 'vendor.icons';
-            if (id.includes('@radix-ui') || id.includes('sonner') || id.includes('clsx')) return 'vendor.ui';
-            return 'vendor';
-          }
+        manualChunks: {
+          'vendor': [
+            'react',
+            'react-dom',
+            'react-router-dom',
+          ]
         }
       }
     }
