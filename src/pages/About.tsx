@@ -4,6 +4,7 @@ import { GraduationCap, Briefcase, Calendar, FileDown } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
 import Section from "@/components/layout/Section";
 import { Button } from "@/components/ui/button";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { profile, skills, timeline } from "@/data/siteData";
 
 export default function About() {
@@ -41,25 +42,30 @@ export default function About() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="glass-card p-8 md:p-12"
             >
-              <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+              <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-stretch">
                 {/* Profile Image */}
-                <div className="relative flex-shrink-0">
-                  <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-primary to-accent p-1">
-                    <div className="w-full h-full rounded-xl bg-card flex items-center justify-center">
-                      {profile.profileImageUrl ? (
-                        <img
-                          src={profile.profileImageUrl}
-                          alt={profile.name}
-                          className="w-full h-full object-cover rounded-xl"
-                        />
-                      ) : (
-                        <div className="text-6xl">👨‍💻</div>
-                      )}
+                <div className="relative flex-shrink-0 flex items-center justify-center">
+                  <div className="relative">
+                    <div className="w-56 h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-2xl overflow-hidden bg-gradient-to-br from-primary to-accent p-[3px]">
+                      <div className="w-full h-full rounded-2xl bg-card flex items-center justify-center">
+                        {profile.profileImageUrl ? (
+                          <OptimizedImage
+                            src={profile.profileImageUrl}
+                            alt={profile.name}
+                            priority={true}
+                            loading="eager"
+                            className="w-full h-full object-cover rounded-2xl"
+                            skeletonClassName="rounded-2xl"
+                          />
+                        ) : (
+                          <div className="text-7xl md:text-8xl">👨‍💻</div>
+                        )}
+                      </div>
                     </div>
+                    {/* Decorative elements */}
+                    <div className="absolute -bottom-3 -right-3 w-20 h-20 bg-primary/30 rounded-xl -z-10" />
+                    <div className="absolute -top-3 -left-3 w-12 h-12 bg-accent/30 rounded-lg -z-10" />
                   </div>
-                  {/* Decorative elements */}
-                  <div className="absolute -bottom-3 -right-3 w-16 h-16 bg-primary/30 rounded-xl -z-10" />
-                  <div className="absolute -top-3 -left-3 w-10 h-10 bg-accent/30 rounded-lg -z-10" />
                 </div>
 
                 {/* Bio Content */}

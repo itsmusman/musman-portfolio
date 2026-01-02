@@ -6,6 +6,7 @@ import PublicLayout from "@/components/layout/PublicLayout";
 import Section from "@/components/layout/Section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { projects } from "@/data/siteData";
 import { getProjectMainImage } from "@/data/projectImages";
 
@@ -61,12 +62,12 @@ export default function Projects() {
                         const mainImage = getProjectMainImage(project.id);
                         if (mainImage) {
                           return (
-                            <img
+                            <OptimizedImage
                               src={mainImage}
                               alt={project.title}
                               loading="lazy"
-                              decoding="async"
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              skeletonClassName="rounded-none"
                             />
                           );
                         }

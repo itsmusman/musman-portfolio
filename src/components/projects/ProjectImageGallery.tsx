@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import type { ProjectImage } from "@/data/projectImages";
 
 interface ProjectImageGalleryProps {
@@ -45,12 +46,13 @@ export default function ProjectImageGallery({ images, projectTitle }: ProjectIma
         className="aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 cursor-pointer group"
         onClick={() => openLightbox(0)}
       >
-        <img
+        <OptimizedImage
           src={images[0].src}
           alt={images[0].alt}
+          priority={true}
           loading="eager"
-          decoding="async"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          skeletonClassName="rounded-2xl"
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
           <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white font-medium">
@@ -73,12 +75,12 @@ export default function ProjectImageGallery({ images, projectTitle }: ProjectIma
               }`}
               onClick={() => openLightbox(index)}
             >
-              <img
+              <OptimizedImage
                 src={image.src}
                 alt={image.alt}
                 loading="lazy"
-                decoding="async"
                 className="w-full h-full object-cover"
+                skeletonClassName="rounded-lg"
               />
             </motion.div>
           ))}
@@ -140,10 +142,13 @@ export default function ProjectImageGallery({ images, projectTitle }: ProjectIma
               className="max-w-[90vw] max-h-[85vh] relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
+              <OptimizedImage
                 src={images[selectedIndex].src}
                 alt={images[selectedIndex].alt}
+                priority={true}
+                loading="eager"
                 className="max-w-full max-h-[85vh] object-contain rounded-lg"
+                skeletonClassName="rounded-lg"
               />
               <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent rounded-b-lg">
                 <p className="text-white text-center">{images[selectedIndex].alt}</p>

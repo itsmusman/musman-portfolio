@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { Typewriter, TextReveal } from "@/components/ui/typewriter";
 import { Badge } from "@/components/ui/badge";
+import OptimizedImage from "@/components/ui/OptimizedImage";
 import { profile, services, projects } from "@/data/siteData";
 import { getProjectMainImage } from "@/data/projectImages";
 import profileImage from "@/assets/profile-pic.png";
@@ -82,10 +83,13 @@ export default function Index() {
                     <div className="w-56 h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-2xl overflow-hidden bg-gradient-to-br from-primary to-accent p-[3px]">
                       <div className="w-full h-full rounded-2xl bg-card flex items-center justify-center">
                         {profileImage ? (
-                          <img
+                          <OptimizedImage
                             src={profileImage}
                             alt={profile.name}
+                            priority={true}
+                            loading="eager"
                             className="w-full h-full object-cover rounded-2xl"
+                            skeletonClassName="rounded-2xl"
                           />
                         ) : (
                           <div className="text-7xl md:text-8xl">👨‍💻</div>
@@ -266,12 +270,12 @@ export default function Index() {
                     <Link to={`/projects/${project.id}`} className="block">
                       <div className="aspect-[4/3] bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
                         {projectImage ? (
-                          <img
+                          <OptimizedImage
                             src={projectImage}
                             alt={project.title}
                             loading="lazy"
-                            decoding="async"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            skeletonClassName="rounded-none"
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-4xl">

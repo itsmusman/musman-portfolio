@@ -12,25 +12,25 @@ export default function Footer() {
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-6 md:px-12 lg:px-20 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-10 lg:gap-8">
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div className="md:col-span-2 lg:col-span-4 min-w-0 pr-0 md:pr-4 lg:pr-6">
             <Link to="/" className="flex items-center gap-3 mb-6 group">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center group-hover:scale-105 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
                 <span className="text-primary-foreground font-bold text-xl">MU</span>
               </div>
-              <span className="font-display font-bold text-xl">{profile.name}</span>
+              <span className="font-display font-bold text-lg md:text-xl">{profile.name}</span>
             </Link>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+            <p className="text-muted-foreground text-xs md:text-sm leading-relaxed mb-6">
               {profile.title}
             </p>
-            <p className="text-muted-foreground text-sm leading-relaxed">
+            <p className="text-muted-foreground text-xs md:text-sm leading-relaxed">
               Crafting beautiful, performant web experiences with modern technologies.
             </p>
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="md:col-span-1 lg:col-span-2">
             <h3 className="font-bold text-lg mb-6">Quick Links</h3>
             <ul className="space-y-4">
               <li>
@@ -61,7 +61,7 @@ export default function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="md:col-span-1 lg:col-span-3">
             <h3 className="font-bold text-lg mb-6">Contact Info</h3>
             <ul className="space-y-4">
               {contactInfo.email && (
@@ -98,7 +98,7 @@ export default function Footer() {
           </div>
 
           {/* Social Links */}
-          <div>
+          <div className="md:col-span-1 lg:col-span-3">
             <h3 className="font-bold text-lg mb-6">Follow Me</h3>
             <div className="flex gap-3">
               {contactInfo.github && (
@@ -137,12 +137,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground text-sm">
+        <div className="mt-12 pt-8 border-t border-border flex items-center justify-center">
+          <p className="text-muted-foreground text-sm text-center">
             © {currentYear} {profile.name}. All rights reserved.
-          </p>
-          <p className="text-muted-foreground text-sm">
-            Built with <span className="text-primary">♥</span> using React & TypeScript
           </p>
         </div>
       </div>
