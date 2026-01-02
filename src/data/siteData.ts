@@ -1,12 +1,14 @@
 // Static site data - Edit this file to update your portfolio content
 
+import profilePic from "@/assets/profile-pic.png";
+
 export const profile = {
   name: "MUHAMMAD USMAN",
   title: "SENIOR SOFTWARE ENGINEER ( Frontend Focused )",
   bio: "I am a Software Engineer with over 5 years of professional experience specializing in frontend development and modern web and mobile applications. My expertise lies in building scalable, high-performance user interfaces using React.js, Next.js, and React Native, with strong foundations in HTML, CSS, JavaScript, and TypeScript. I have hands-on experience working in agile, cross-functional teams, integrating frontend systems with APIs, and optimizing workflows to ensure timely and high-quality feature delivery. I am particularly passionate about AI-powered solutions, clean architecture, and crafting intuitive user experiences that solve real business problems.",
   education: "Bachelor of Science in Computer Science - University of Lahore (2017-2021)",
   experience: "5+ Years in Frontend Development",
-  profileImageUrl: "/src/assets/profile-pic.png",
+  profileImageUrl: profilePic,
   resumeUrl: null as string | null,
 };
 
