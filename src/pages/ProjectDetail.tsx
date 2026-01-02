@@ -43,7 +43,7 @@ export default function ProjectDetail() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>{project.title} | Muhammad Usman - Portfolio</title>
+        <title>{project.title} | Muhammad Usman Portfolio — Senior Frontend Developer</title>
         <meta name="description" content={project.description} />
       </Helmet>
 

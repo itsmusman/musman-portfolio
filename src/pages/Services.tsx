@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import type { ComponentType } from "react";
 import { motion } from "framer-motion";
 import { Code, Palette, Zap, MessageSquare, Smartphone, Database } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
@@ -7,7 +8,7 @@ import MobileCarousel from "@/components/ui/MobileCarousel";
 import ExpandableText from "@/components/ui/ExpandableText";
 import { services } from "@/data/siteData";
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, ComponentType<any>> = {
   Code,
   Palette,
   Zap,
@@ -20,8 +21,8 @@ export default function Services() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>Services | Muhammad Usman - Senior Frontend Engineer</title>
-        <meta name="description" content="Professional frontend development services including React development, UI/UX implementation, performance optimization, and technical consultation." />
+        <title>Services | Muhammad Usman Portfolio — Senior Frontend Developer</title>
+        <meta name="description" content="Frontend development services by Muhammad Usman — React.js, Next.js, performance optimization, UI/UX implementation, and technical consultation." />
       </Helmet>
 
       {/* Hero Section */}

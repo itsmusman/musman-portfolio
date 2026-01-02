@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, Phone } from "lucide-react";
+import { Mail, Linkedin, Github, Send, Phone, Loader2, Check, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,10 +23,10 @@ const contactSchema = z.object({
 
 type ContactForm = z.infer<typeof contactSchema>;
 
-// EmailJS configuration
-const EMAILJS_PUBLIC_KEY = "F8mrkZbL4bsDDNx5Y";
-const EMAILJS_SERVICE_ID = "service_ea5geko";
-const EMAILJS_TEMPLATE_ID = "template_udrx2sq";
+// EmailJS configuration - read only from env. Values moved to .env.
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined;
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
 
 export default function Contact() {
   const { toast } = useToast();
@@ -43,6 +43,17 @@ export default function Contact() {
 
   const onSubmit = async (data: ContactForm) => {
     setIsSubmitting(true);
+    // Guard: ensure EmailJS env vars are present (avoid sending with undefined values)
+    if (!EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID) {
+      if (import.meta.env.DEV) console.warn("EmailJS env vars missing. Check .env file.");
+      toast({
+        title: "Email not configured",
+        description: "Contact form is not configured. Please set EmailJS environment variables.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
       await emailjs.send(
@@ -60,15 +71,25 @@ export default function Contact() {
 
       toast({
         title: "Message sent!",
-        description: "Thank you for reaching out. I'll get back to you soon.",
+        description: (
+          <span className="flex items-center gap-2">
+            <Check className="h-4 w-4 text-green-400 animate-pulse" />
+            <span>Thank you for reaching out. I'll get back to you soon.</span>
+          </span>
+        ),
       });
       
       form.reset();
-    } catch (error: any) {
-      console.error("Error sending message:", error);
+    } catch (error: unknown) {
+      if (import.meta.env.DEV) console.error("Error sending message:", error);
       toast({
-        title: "Failed to send message",
-        description: "Please try again or contact me directly via email.",
+        title: "Failed to send",
+        description: (
+          <span className="flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 text-red-300 animate-pulse" />
+            <span>Please try again or contact me directly via email.</span>
+          </span>
+        ),
         variant: "destructive",
       });
     } finally {
@@ -90,8 +111,8 @@ export default function Contact() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>Contact | Muhammad Usman - Senior Frontend Engineer</title>
-        <meta name="description" content="Get in touch with Muhammad Usman for frontend development projects, collaboration opportunities, or just to say hello." />
+        <title>Contact | Muhammad Usman Portfolio — Senior Frontend Developer</title>
+        <meta name="description" content="Contact Muhammad Usman — Senior Frontend Developer for project inquiries, collaborations, and frontend consulting. Available for freelance and full-time roles." />
       </Helmet>
 
       {/* Hero Section */}
@@ -216,14 +237,17 @@ export default function Contact() {
                     )}
                   />
 
-                  <Button 
-                    type="submit" 
-                    size="lg" 
-                    className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90"
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 flex items-center justify-center"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
-                      "Sending..."
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Sending...
+                      </>
                     ) : (
                       <>
                         <Send size={18} className="mr-2" />

@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import type { ComponentType } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, FileDown, Mail, Code, Palette, Zap, Globe, Smartphone, Database, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -20,7 +21,7 @@ const features = [
   { icon: Globe, title: "Responsive", description: "Perfect on all devices and screens" },
 ];
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, ComponentType<any>> = {
   Code,
   Palette,
   Zap,
@@ -34,8 +35,8 @@ export default function Index() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>{profile.name} | {profile.title}</title>
-        <meta name="description" content={profile.bio} />
+        <title>Muhammad Usman Portfolio — Senior Frontend Developer</title>
+        <meta name="description" content="Muhammad Usman — Senior Frontend Developer specializing in React, TypeScript, Next.js and performant responsive web & mobile applications." />
       </Helmet>
 
       {/* Hero Section */}
