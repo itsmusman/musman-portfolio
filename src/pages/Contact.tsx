@@ -119,12 +119,13 @@ export default function Contact() {
       {/* Contact Section */}
       <Section className="py-24">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto items-stretch">
             {/* Contact Info */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col"
             >
               <h2 className="text-2xl font-semibold mb-6">Let's Connect</h2>
               <p className="text-muted-foreground mb-8 leading-relaxed">
@@ -133,7 +134,7 @@ export default function Contact() {
               </p>
 
               {/* Social Links */}
-              <div className="space-y-4">
+              <div className="space-y-4 flex-1 flex flex-col justify-between">
                 {socialLinks.map((link, index) => (
                   <motion.a
                     key={link.label}

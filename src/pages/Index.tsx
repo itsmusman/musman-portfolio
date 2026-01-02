@@ -128,7 +128,7 @@ export default function Index() {
 
                 <div className="flex items-center justify-center gap-3 p-4 md:p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
                   <div className="text-center">
-                    <p className="text-2xl md:text-4xl font-bold gradient-text">30+</p>
+                    <p className="text-2xl md:text-4xl font-bold gradient-text">20+</p>
                     <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wide">Projects Completed</p>
                   </div>
                 </div>
