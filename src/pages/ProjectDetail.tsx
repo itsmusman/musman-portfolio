@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { ExternalLink, ArrowLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ChevronRight, ExternalLink } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
 import Section from "@/components/layout/Section";
 import { Button } from "@/components/ui/button";
@@ -143,6 +143,52 @@ export default function ProjectDetail() {
             </motion.div>
 
             {/* Tech Stack Details */}
+            {project.impact && project.impact.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="mt-12"
+              >
+                <h2 className="text-2xl font-semibold mb-6">Impact</h2>
+                <div className="glass-card p-8">
+                  <div className="space-y-4">
+                    {project.impact.map((item) => (
+                      <div key={item} className="flex gap-3">
+                        <CheckCircle2 className="mt-1 text-primary flex-shrink-0" size={18} />
+                        <p className="text-muted-foreground leading-relaxed">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {project.caseStudy && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="mt-12"
+              >
+                <h2 className="text-2xl font-semibold mb-6">Case Study</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[
+                    ["Challenge", project.caseStudy.challenge],
+                    ["Approach", project.caseStudy.approach],
+                    ["Outcome", project.caseStudy.outcome],
+                  ].map(([label, text]) => (
+                    <div key={label} className="glass-card p-6">
+                      <p className="text-primary text-sm font-semibold uppercase tracking-wide mb-3">{label}</p>
+                      <p className="text-muted-foreground text-sm leading-relaxed">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

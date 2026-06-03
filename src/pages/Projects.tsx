@@ -96,6 +96,11 @@ export default function Projects() {
                           <h3 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">{project.title}</h3>
                         </Link>
                         <ExpandableText text={project.description} maxLength={100} mobileOnly={true} />
+                        {project.impact?.[0] && (
+                          <p className="text-primary text-xs font-medium leading-relaxed mt-3">
+                            {project.impact[0]}
+                          </p>
+                        )}
                         
                         {/* Tech Stack */}
                         <div className="flex flex-wrap gap-2 mb-4 mt-4">
@@ -179,6 +184,11 @@ export default function Projects() {
                         <h3 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">{project.title}</h3>
                       </Link>
                       <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.description}</p>
+                      {project.impact?.[0] && (
+                        <p className="text-primary text-xs font-medium leading-relaxed mb-4 line-clamp-2">
+                          {project.impact[0]}
+                        </p>
+                      )}
                       
                       {/* Tech Stack */}
                       <div className="flex flex-wrap gap-2 mb-4">

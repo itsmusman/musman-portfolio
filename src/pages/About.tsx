@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Calendar, FileDown } from "lucide-react";
+import { GraduationCap, Briefcase, Calendar, Eye, FileDown } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
 import Section from "@/components/layout/Section";
 import { Button } from "@/components/ui/button";
@@ -124,15 +124,22 @@ export default function About() {
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                   <FileDown className="text-primary" size={32} />
                 </div>
-                <h3 className="text-2xl font-semibold mb-2">Download My Resume</h3>
+                <h3 className="text-2xl font-semibold mb-2">Resume</h3>
                 <p className="text-muted-foreground mb-6">
-                  Get a comprehensive overview of my skills, experience, and qualifications.
+                  A quick PDF overview of my experience, skills, and qualifications for recruiters.
                 </p>
-                <Button asChild size="lg" className="glow">
-                  <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
-                    <FileDown className="mr-2" size={18} /> Download Resume (PDF)
-                  </a>
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button asChild size="lg" className="glow">
+                    <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
+                      <Eye className="mr-2" size={18} /> View Resume
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="secondary" className="border border-border">
+                    <a href={profile.resumeUrl} download>
+                      <FileDown className="mr-2" size={18} /> Download PDF
+                    </a>
+                  </Button>
+                </div>
               </div>
             </motion.div>
           </div>

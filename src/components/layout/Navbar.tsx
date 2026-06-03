@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Eye, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { profile } from "@/data/siteData";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -33,7 +34,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -55,7 +56,14 @@ export default function Navbar() {
         </div>
 
         {/* CTA Button */}
-        <div className="hidden md:block">
+        <div className="hidden lg:flex items-center gap-2">
+          {profile.resumeUrl && (
+            <Button asChild variant="secondary" className="border border-border bg-background/60">
+              <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
+                <Eye className="mr-2" size={16} /> View Resume
+              </a>
+            </Button>
+          )}
           <Button asChild className="bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90">
             <Link to="/contact">Hire Me</Link>
           </Button>
@@ -64,7 +72,7 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-foreground"
+          className="lg:hidden p-2 text-foreground"
           aria-label="Toggle menu"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -79,7 +87,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-background border-b border-border overflow-hidden"
+            className="lg:hidden bg-background border-b border-border overflow-hidden"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
               {navLinks.map((link) => (
@@ -94,7 +102,14 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Button asChild className="bg-gradient-to-r from-primary to-accent text-primary-foreground w-full mt-2">
+              {profile.resumeUrl && (
+                <Button asChild variant="secondary" className="w-full mt-2 border border-border">
+                  <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
+                    <Eye className="mr-2" size={18} /> View Resume
+                  </a>
+                </Button>
+              )}
+              <Button asChild className="bg-gradient-to-r from-primary to-accent text-primary-foreground w-full">
                 <Link to="/contact" onClick={() => setIsOpen(false)}>Hire Me</Link>
               </Button>
             </div>

@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import type { ComponentType } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, FileDown, Mail, Code, Palette, Zap, Globe, Smartphone, Database, MessageSquare, LucideIcon } from "lucide-react";
+import { ArrowRight, Eye, Mail, Code, Palette, Zap, Globe, Smartphone, Database, MessageSquare, LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import PublicLayout from "@/components/layout/PublicLayout";
@@ -149,6 +149,14 @@ export default function Index() {
                     View My Work <ArrowRight className="ml-2" size={18} />
                   </Link>
                 </Button>
+
+                {profile.resumeUrl && (
+                  <Button asChild variant="outline" size="lg" className="text-base px-6 h-12 border-primary/50 bg-primary/10 hover:bg-primary/20">
+                    <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
+                      <Eye className="mr-2" size={18} /> View Resume
+                    </a>
+                  </Button>
+                )}
                 
                 <Button asChild variant="secondary" size="lg" className="text-base px-6 h-12 border border-border">
                   <Link to="/contact">
@@ -337,6 +345,11 @@ export default function Index() {
                           <h3 className="font-semibold text-lg mb-2 hover:text-primary transition-colors">{project.title}</h3>
                         </Link>
                         <ExpandableText text={project.description} maxLength={100} mobileOnly={true} />
+                        {project.impact?.[0] && (
+                          <p className="text-primary text-xs font-medium leading-relaxed mt-3">
+                            {project.impact[0]}
+                          </p>
+                        )}
                         <div className="flex flex-wrap gap-1.5 mt-4">
                           {project.techStack?.slice(0, 3).map((tech) => (
                             <span
@@ -409,6 +422,11 @@ export default function Index() {
                         <h3 className="font-semibold text-lg mb-2 hover:text-primary transition-colors">{project.title}</h3>
                       </Link>
                       <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.description}</p>
+                      {project.impact?.[0] && (
+                        <p className="text-primary text-xs font-medium leading-relaxed mb-4 line-clamp-2">
+                          {project.impact[0]}
+                        </p>
+                      )}
                       <div className="flex flex-wrap gap-1.5">
                         {project.techStack?.slice(0, 3).map((tech) => (
                           <span

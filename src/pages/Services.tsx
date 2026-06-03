@@ -22,7 +22,7 @@ export default function Services() {
     <PublicLayout>
       <Helmet>
         <title>Services | Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
-        <meta name="description" content="Explore AI-augmented Full Stack engineering services by Muhammad Usman — custom React/Next.js UIs, Node/Python backend APIs, database design, and OpenAI/LLM integrations." />
+        <meta name="description" content="Explore AI-augmented Full Stack engineering services by Muhammad Usman — JavaScript/TypeScript applications, React/Next.js UIs, Node/Python backend APIs, database design, and OpenAI/LLM integrations." />
       </Helmet>
 
       {/* Hero Section */}

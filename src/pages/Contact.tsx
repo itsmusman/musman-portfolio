@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, Send, Phone, Loader2, Check, AlertTriangle } from "lucide-react";
+import { Briefcase, Check, Clock, FileText, Github, Linkedin, Loader2, Mail, Phone, Send, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { contactInfo } from "@/data/siteData";
+import { contactInfo, profile } from "@/data/siteData";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
@@ -111,8 +111,8 @@ export default function Contact() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>Contact | Muhammad Usman Portfolio — Senior Frontend Developer</title>
-        <meta name="description" content="Contact Muhammad Usman — Senior Frontend Developer for project inquiries, collaborations, and frontend consulting. Available for freelance and full-time roles." />
+        <title>Contact | Muhammad Usman Portfolio — Senior Full Stack Software Engineer</title>
+        <meta name="description" content="Contact Muhammad Usman — Senior Full Stack Software Engineer for project inquiries, collaborations, full-stack development, and AI-integrated web applications. Available for freelance and full-time roles." />
       </Helmet>
 
       {/* Hero Section */}
@@ -146,7 +146,7 @@ export default function Contact() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col"
+              className="glass-card p-6 sm:p-8 flex flex-col"
             >
               <h2 className="text-2xl font-semibold mb-6">Let's Connect</h2>
               <p className="text-muted-foreground mb-8 leading-relaxed">
@@ -155,7 +155,7 @@ export default function Contact() {
               </p>
 
               {/* Social Links */}
-              <div className="space-y-4 flex-1 flex flex-col justify-between">
+              <div className="space-y-4 flex-1">
                 {socialLinks.map((link, index) => (
                   <motion.a
                     key={link.label}
@@ -165,7 +165,7 @@ export default function Contact() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors group"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors group"
                   >
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                       <link.icon className="text-primary" size={24} />
@@ -184,7 +184,7 @@ export default function Contact() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="glass-card p-8"
+              className="glass-card p-6 sm:p-8 flex flex-col"
             >
               <h2 className="text-2xl font-semibold mb-6">Send a Message</h2>
               
@@ -227,7 +227,7 @@ export default function Contact() {
                         <FormControl>
                           <Textarea 
                             placeholder="Tell me about your project..." 
-                            rows={5} 
+                            rows={6} 
                             {...field} 
                             className="bg-background/50 resize-none"
                           />
@@ -263,6 +263,57 @@ export default function Contact() {
               </Form>
             </motion.div>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="glass-card p-6 sm:p-8 mt-8 max-w-6xl mx-auto"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6 lg:gap-8 items-center">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Briefcase className="text-primary" size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Available for full-time and freelance work</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Open to senior full-stack roles, contract builds, AI-integrated products, and long-term engineering partnerships.
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    { icon: Check, label: "Full-stack delivery" },
+                    { icon: Clock, label: "Fast async communication" },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <item.icon className="text-primary" size={16} />
+                      <span>{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
+                  <Button asChild className="glow">
+                    <a href={`mailto:${contactInfo.email}`}>
+                      <Mail className="mr-2" size={16} /> Email Me
+                    </a>
+                  </Button>
+                  {profile.resumeUrl && (
+                    <Button asChild variant="secondary" className="border border-border">
+                      <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
+                        <FileText className="mr-2" size={16} /> View Resume
+                      </a>
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </Section>
     </PublicLayout>
