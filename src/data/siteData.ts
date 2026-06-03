@@ -1,13 +1,13 @@
 // Static site data - Edit this file to update your portfolio content
 
-import profilePic from "@/assets/profile-pic.png";
+import profilePic from "@/assets/profile-pic.png?format=webp&w=400";
 
 export const profile = {
   name: "MUHAMMAD USMAN",
-  title: "SENIOR SOFTWARE ENGINEER ( Frontend Focused )",
-  bio: "I am a Software Engineer with over 5 years of professional experience specializing in frontend development and modern web and mobile applications. My expertise lies in building scalable, high-performance user interfaces using React.js, Next.js, and React Native, with strong foundations in HTML, CSS, JavaScript, and TypeScript. I have hands-on experience working in agile, cross-functional teams, integrating frontend systems with APIs, and optimizing workflows to ensure timely and high-quality feature delivery. I am particularly passionate about AI-powered solutions, clean architecture, and crafting intuitive user experiences that solve real business problems.",
+  title: "SENIOR SOFTWARE ENGINEER ( Full Stack )",
+  bio: "I am a Senior Software Engineer with over 5 years of professional experience specializing in building scalable web and mobile applications. Leveraging advanced AI coding assistants and agents (such as Antigravity, Claude Code, and Cursor), I rapidly bridge frontend architectures (React.js, Next.js, TypeScript) with backend services, database schemas, and Python scripts. This AI-augmented workflow allows me to build complete, full-stack applications, automate workflows, and integrate AI APIs (such as OpenAI/LLMs) with high speed and precision. Passionate about clean architecture, system optimization, and utilizing intelligent tools to deliver high-quality, modern software solutions.",
   education: "Bachelor of Science in Computer Science - University of Lahore (2017-2021)",
-  experience: "5+ Years in Frontend Development",
+  experience: "5+ Years in Full Stack Development",
   profileImageUrl: profilePic,
   resumeUrl: null as string | null,
 };
@@ -15,48 +15,42 @@ export const profile = {
 export const services = [
   {
     id: "1",
-    title: "JavaScript/TypeScript Development",
-    description: "Building dynamic, interactive web applications with JavaScript and TypeScript, leveraging modern ES6+ features and type safety for robust, maintainable code.",
+    title: "AI-Augmented Development",
+    description: "Utilizing advanced AI coding agents (Antigravity, Claude Code, Cursor) to rapidly build full-stack features, write scripts, and optimize codebases.",
     icon: "Code",
   },
   {
     id: "2",
-    title: "React.js Development",
-    description: "Building dynamic, interactive web applications with React.js, leveraging component-based architecture for scalable and maintainable codebases.",
+    title: "React.js & Next.js Development",
+    description: "Creating highly interactive user interfaces and SEO-optimized web apps, utilizing server-side rendering and component-based structures.",
     icon: "Code",
   },
   {
     id: "3",
-    title: "Next.js Development",
-    description: "Creating fast, SEO-friendly applications with Next.js, utilizing server-side rendering and static generation for optimal performance.",
+    title: "Backend API Engineering",
+    description: "Designing and developing robust RESTful and GraphQL APIs using Node.js and Express.js, featuring secure authentication and high throughput.",
     icon: "Zap",
   },
   {
     id: "4",
-    title: "React Native Development",
+    title: "Database Design & Management",
+    description: "Structuring and optimizing relational (PostgreSQL, SQL) and non-relational (MongoDB) database schemas for performant queries and data integrity.",
+    icon: "Database",
+  },
+  {
+    id: "5",
+    title: "React Native Mobile Development",
     description: "Developing cross-platform mobile applications with React Native, delivering native-like experiences for iOS and Android.",
     icon: "Smartphone",
   },
   {
-    id: "5",
-    title: "Performance Optimization",
-    description: "Optimizing web and mobile applications for speed, accessibility, and SEO to deliver the best user experience.",
-    icon: "Zap",
-  },
-  {
     id: "6",
-    title: "API Integration",
-    description: "Seamlessly integrating frontend systems with REST APIs and third-party services for robust data management.",
+    title: "AI & API Integration",
+    description: "Connecting web applications to AI APIs, large language models (LLMs), and automating backend processes using Python.",
     icon: "Globe",
   },
   {
     id: "7",
-    title: "Technical Consultation",
-    description: "Providing expert advice on frontend architecture, technology choices, and best practices for your projects.",
-    icon: "MessageSquare",
-  },
-  {
-    id: "8",
     title: "Chrome Extension Development",
     description: "Building lightweight, powerful Chrome extensions with JavaScript and Chrome APIs to enhance browser functionality and user productivity.",
     icon: "Globe",
@@ -139,15 +133,15 @@ export const contactInfo = {
 };
 
 export const skills = [
-  { name: "React.js", level: 95 },
-  { name: "JavaScript (ES6+)", level: 95 },
-  { name: "HTML5/CSS3", level: 95 },
-  { name: "Next.js", level: 92 },
-  { name: "TypeScript", level: 90 },
-  { name: "Tailwind CSS", level: 90 },
-  { name: "React Native", level: 88 },
-  { name: "Git & GitHub", level: 88 },
-  { name: "API Integrations", level: 85 },
+  { name: "React.js / Next.js", level: 95 },
+  { name: "JavaScript / TypeScript", level: 95 },
+  { name: "AI-Augmented Workflows", level: 95 },
+  { name: "AI & API Integrations", level: 90 },
+  { name: "Node.js / Express.js", level: 88 },
+  { name: "Databases (SQL / MongoDB)", level: 88 },
+  { name: "Python", level: 85 },
+  { name: "Tailwind CSS / UI Design", level: 90 },
+  { name: "Git & CI/CD", level: 88 },
 ];
 
 export const timeline = [
@@ -155,24 +149,24 @@ export const timeline = [
     year: "Apr 2025 - Present",
     title: "Senior Software Engineer - Freelance",
     company: "Self-Employed — Pakistan",
-    description: "Providing frontend development services for clients worldwide. Building modern web and mobile applications using React.js, Next.js, and React Native.",
+    description: "Delivering full-stack development and Python scripting services for global clients, leveraging advanced AI coding agents to accelerate delivery times. Architected custom endpoints and integrated AI APIs with React frontends.",
   },
   {
     year: "Aug 2024 - Apr 2025",
     title: "Senior Software Engineer",
     company: "PieCyfer — Lahore, Pakistan",
-    description: "Maintained and enhanced scalable web applications using React.js and Next.js. Integrated frontend systems to optimize deal and data management workflows. Collaborated closely with designers, backend engineers, and stakeholders in agile environments.",
+    description: "Maintained and enhanced scalable full-stack web applications using React.js, Next.js, and Node.js. Used AI-assisted tools to streamline scripting tasks, integrated third-party REST APIs, and optimized query operations.",
   },
   {
     year: "Dec 2022 - Aug 2024",
     title: "Associate Software Engineer",
     company: "DevBlends — Lahore, Pakistan",
-    description: "Developed customized web and mobile applications for multiple industries. Built responsive interfaces using React.js and React Native. Managed deployments, code reviews, and environment setup.",
+    description: "Developed customized web and mobile applications. Built backend helper services in Python and Node.js, and integrated them with frontend React and React Native views. Spearheaded transition to AI-augmented development.",
   },
   {
     year: "Mar 2021 - Nov 2022",
     title: "Junior Software Engineer",
     company: "Ebyrx — Lahore, Pakistan",
-    description: "Implemented frontend interfaces using HTML, CSS, and JavaScript. Delivered mobile-first, responsive UI/UX solutions. Created reusable components to reduce redundancy across projects.",
+    description: "Built web interfaces using HTML, CSS, JavaScript, and React. Collaborated with backend engineers to integrate APIs. Developed reusable UI components and optimized layouts for responsiveness.",
   },
 ];

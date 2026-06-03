@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import type { ComponentType } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, FileDown, Mail, Code, Palette, Zap, Globe, Smartphone, Database, MessageSquare } from "lucide-react";
+import { ArrowRight, FileDown, Mail, Code, Palette, Zap, Globe, Smartphone, Database, MessageSquare, LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import PublicLayout from "@/components/layout/PublicLayout";
@@ -12,7 +12,7 @@ import MobileCarousel from "@/components/ui/MobileCarousel";
 import ExpandableText from "@/components/ui/ExpandableText";
 import { profile, services, projects } from "@/data/siteData";
 import { getProjectMainImage } from "@/data/projectImages";
-import profileImage from "@/assets/profile-pic.png";
+import profileImage from "@/assets/profile-pic.png?format=webp&w=400";
 
 const features = [
   { icon: Code, title: "Clean Code", description: "Well-structured, maintainable codebases" },
@@ -21,7 +21,7 @@ const features = [
   { icon: Globe, title: "Responsive", description: "Perfect on all devices and screens" },
 ];
 
-const iconMap: Record<string, ComponentType<any>> = {
+const iconMap: Record<string, LucideIcon> = {
   Code,
   Palette,
   Zap,
@@ -35,8 +35,8 @@ export default function Index() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>Muhammad Usman Portfolio — Senior Frontend Developer</title>
-        <meta name="description" content="Muhammad Usman — Senior Frontend Developer specializing in React, TypeScript, Next.js and performant responsive web & mobile applications." />
+        <title>Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
+        <meta name="description" content="Portfolio of Muhammad Usman — AI-augmented Senior Full Stack Engineer utilizing AI-assisted workflows (Cursor, Claude Code, Antigravity) to build React/Next.js frontends, Node/Python backends, and AI API integrations." />
       </Helmet>
 
       {/* Hero Section */}
@@ -64,7 +64,7 @@ export default function Index() {
               </h1>
               <div className="text-xl md:text-2xl text-primary font-semibold h-8">
                 <Typewriter 
-                  words={["Software Engineer", "React.js Expert", "Next.js Developer", "React Native Developer", "TypeScript Specialist"]}
+                  words={["Full Stack Developer", "AI-Augmented Engineer", "React & Node Specialist", "Python & AI API Integrator", "TypeScript Specialist"]}
                   typingSpeed={80}
                   deletingSpeed={40}
                   delayBetweenWords={2500}

@@ -12,8 +12,8 @@ export default function About() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>About | Muhammad Usman Portfolio — Senior Frontend Developer</title>
-        <meta name="description" content="About Muhammad Usman — Senior Frontend Developer specializing in React, TypeScript, Next.js, and performant user experiences for web and mobile." />
+        <title>About | Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
+        <meta name="description" content="Learn about Muhammad Usman — AI-augmented Senior Full Stack Engineer utilizing tools like Cursor, Claude Code, and Antigravity to build high-performance web applications, Node/Python backends, and AI integrations." />
       </Helmet>
 
       {/* Hero Section */}

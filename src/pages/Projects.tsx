@@ -16,8 +16,8 @@ export default function Projects() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>Projects | Muhammad Usman Portfolio — Senior Frontend Developer</title>
-        <meta name="description" content="Explore projects by Muhammad Usman — Senior Frontend Developer. Web and mobile apps built with React, Next.js, TypeScript, and modern tooling." />
+        <title>Projects | Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
+        <meta name="description" content="Explore projects by Muhammad Usman — AI-augmented Senior Full Stack Engineer. Showcase of web, mobile, and server-side applications built using React, Next.js, Node.js, Python, and third-party AI APIs." />
       </Helmet>
 
       {/* Hero Section */}

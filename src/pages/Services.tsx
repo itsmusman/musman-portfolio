@@ -1,14 +1,14 @@
 import { Helmet } from "react-helmet-async";
 import type { ComponentType } from "react";
 import { motion } from "framer-motion";
-import { Code, Palette, Zap, MessageSquare, Smartphone, Database } from "lucide-react";
+import { Code, Palette, Zap, MessageSquare, Smartphone, Database, LucideIcon } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
 import Section from "@/components/layout/Section";
 import MobileCarousel from "@/components/ui/MobileCarousel";
 import ExpandableText from "@/components/ui/ExpandableText";
 import { services } from "@/data/siteData";
 
-const iconMap: Record<string, ComponentType<any>> = {
+const iconMap: Record<string, LucideIcon> = {
   Code,
   Palette,
   Zap,
@@ -21,8 +21,8 @@ export default function Services() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>Services | Muhammad Usman Portfolio — Senior Frontend Developer</title>
-        <meta name="description" content="Frontend development services by Muhammad Usman — React.js, Next.js, performance optimization, UI/UX implementation, and technical consultation." />
+        <title>Services | Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
+        <meta name="description" content="Explore AI-augmented Full Stack engineering services by Muhammad Usman — custom React/Next.js UIs, Node/Python backend APIs, database design, and OpenAI/LLM integrations." />
       </Helmet>
 
       {/* Hero Section */}
@@ -41,7 +41,7 @@ export default function Services() {
               My <span className="gradient-text">Services</span>
             </h1>
             <p className="text-xl text-muted-foreground">
-              Comprehensive frontend development solutions tailored to your needs
+              Comprehensive full-stack development solutions tailored to your needs
             </p>
           </motion.div>
         </div>
