@@ -15,8 +15,8 @@ export default function ProjectImageGallery({ images, projectTitle }: ProjectIma
 
   if (images.length === 0) {
     return (
-      <div className="aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-        <span className="text-8xl">🚀</span>
+      <div className="aspect-video rounded-lg overflow-hidden border border-white/10 bg-secondary/30 flex items-center justify-center">
+        <span className="text-4xl">📸</span>
       </div>
     );
   }
@@ -40,10 +40,10 @@ export default function ProjectImageGallery({ images, projectTitle }: ProjectIma
     <>
       {/* Main Image */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 cursor-pointer group"
+        transition={{ duration: 0.4 }}
+        className="aspect-video rounded-lg overflow-hidden border border-white/10 bg-secondary/30 cursor-pointer group"
         onClick={() => openLightbox(0)}
       >
         <OptimizedImage
@@ -51,12 +51,12 @@ export default function ProjectImageGallery({ images, projectTitle }: ProjectIma
           alt={images[0].alt}
           priority={true}
           loading="eager"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          skeletonClassName="rounded-2xl"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          skeletonClassName="rounded-lg"
         />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white font-medium">
-            Click to view gallery
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-mono px-3 py-1.5 rounded bg-black/60 border border-white/20">
+            View full gallery
           </span>
         </div>
       </motion.div>

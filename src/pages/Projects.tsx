@@ -1,234 +1,194 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
-import Section from "@/components/layout/Section";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import OptimizedImage from "@/components/ui/OptimizedImage";
-import MobileCarousel from "@/components/ui/MobileCarousel";
-import ExpandableText from "@/components/ui/ExpandableText";
 import { projects } from "@/data/siteData";
 import { getProjectMainImage } from "@/data/projectImages";
 
 export default function Projects() {
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+
+  const filterOptions = ["All", "Featured", "AI / ML", "Full Stack Web", "Mobile", "Extensions"];
+
+  const filteredProjects = projects.filter((project) => {
+    if (activeFilter === "All") return true;
+    if (activeFilter === "Featured") return project.featured;
+    if (activeFilter === "AI / ML") {
+      return (
+        project.category.toLowerCase().includes("ai") ||
+        project.techStack.some((t) => t.toLowerCase().includes("openai") || t.toLowerCase().includes("ai"))
+      );
+    }
+    if (activeFilter === "Full Stack Web") {
+      return (
+        project.techStack.includes("React") ||
+        project.techStack.includes("Next.js") ||
+        project.techStack.includes("React.js") ||
+        project.techStack.includes("Python")
+      );
+    }
+    if (activeFilter === "Mobile") {
+      return project.category.toLowerCase().includes("mobile") || project.techStack.includes("React Native");
+    }
+    if (activeFilter === "Extensions") {
+      return project.category.toLowerCase().includes("extension");
+    }
+    return true;
+  });
+
   return (
     <PublicLayout>
       <Helmet>
-        <title>Projects | Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
-        <meta name="description" content="Explore projects by Muhammad Usman — AI-augmented Senior Full Stack Engineer. Showcase of web, mobile, and server-side applications built using React, Next.js, Node.js, Python, and third-party AI APIs." />
+        <title>Projects | Muhammad Usman — Full Stack Software Engineer · AI/ML Transition</title>
+        <meta
+          name="description"
+          content="Production software engineering projects by Muhammad Usman: real-time trend discovery (Unsurfaced AI), e-commerce intelligence (Amaizing), crypto retirement platforms (BlockTrust), Web3 (XANA), and logistics (TruckUp)."
+        />
+        <link rel="canonical" href="https://musman-portfolio-one.vercel.app/projects" />
       </Helmet>
 
-      {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[128px]" />
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              My <span className="gradient-text">Projects</span>
+      {/* Header */}
+      <section className="pt-28 pb-12 md:pt-36 md:pb-16 border-b border-white/[0.08]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
+          <p className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
+            Engineering Portfolio
+          </p>
+
+          <div className="space-y-2">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+              Projects & Systems
             </h1>
-            <p className="text-xl text-muted-foreground">
-              A collection of work that showcases my skills and passion
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl text-pretty font-normal">
+              9 curated applications across AI/ML data discovery, competitive intelligence, logistics dispatch, diagnostic health, and cross-platform mobile development.
             </p>
-          </motion.div>
+          </div>
+
+          {/* Filter Navigation */}
+          <div className="flex flex-wrap gap-x-5 gap-y-2 pt-2 border-t border-white/[0.06] text-xs">
+            {filterOptions.map((option) => (
+              <button
+                key={option}
+                onClick={() => setActiveFilter(option)}
+                className={`py-1 transition-colors ${
+                  activeFilter === option
+                    ? "text-foreground font-semibold border-b-2 border-teal-400"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Projects Grid */}
-      <Section className="py-24">
-        <div className="container mx-auto px-4">
-          {projects.length > 0 ? (
-            <>
-              {/* Mobile Carousel */}
-              <div className="md:hidden">
-                <MobileCarousel showDots={true} showArrows={false}>
-                  {projects.map((project, index) => (
-                    <motion.div
-                      key={project.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="glass-card overflow-hidden group"
-                    >
-                      {/* Project Image - Clickable */}
-                      <Link to={`/projects/${project.id}`} className="block">
-                        <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 relative overflow-hidden">
-                          {(() => {
-                            const mainImage = getProjectMainImage(project.id);
-                            if (mainImage) {
-                              return (
-                                <OptimizedImage
-                                  src={mainImage}
-                                  alt={project.title}
-                                  loading="lazy"
-                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                  skeletonClassName="rounded-none"
-                                />
-                              );
-                            }
-                            return (
-                              <div className="w-full h-full flex items-center justify-center">
-                                <span className="text-4xl">🚀</span>
-                              </div>
-                            );
-                          })()}
-                          {/* Featured Badge */}
-                          {project.featured && (
-                            <div className="absolute top-3 left-3">
-                              <Badge className="bg-primary text-primary-foreground">Featured</Badge>
-                            </div>
-                          )}
-                        </div>
-                      </Link>
+      {/* Editorial Project List (No cards) */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="border-t border-b border-white/[0.08] divide-y divide-white/[0.08]">
+            {filteredProjects.map((project) => {
+              const projectImage = getProjectMainImage(project.id);
 
-                      {/* Project Info */}
-                      <div className="p-6">
-                        <Link to={`/projects/${project.id}`}>
-                          <h3 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">{project.title}</h3>
-                        </Link>
-                        <ExpandableText text={project.description} maxLength={100} mobileOnly={true} />
-                        {project.impact?.[0] && (
-                          <p className="text-primary text-xs font-medium leading-relaxed mt-3">
-                            {project.impact[0]}
-                          </p>
-                        )}
-                        
-                        {/* Tech Stack */}
-                        <div className="flex flex-wrap gap-2 mb-4 mt-4">
-                          {project.techStack?.slice(0, 4).map((tech) => (
-                            <Badge key={tech} variant="secondary" className="text-xs">
-                              {tech}
-                            </Badge>
-                          ))}
-                          {project.techStack && project.techStack.length > 4 && (
-                            <Badge variant="secondary" className="text-xs">
-                              +{project.techStack.length - 4}
-                            </Badge>
-                          )}
-                        </div>
+              return (
+                <article
+                  key={project.id}
+                  className="py-10 sm:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start"
+                >
+                  {/* Left Column: Index & Category */}
+                  <div className="lg:col-span-3 space-y-1">
+                    <span className="font-mono text-xs text-muted-foreground">
+                      {project.orderNumber}
+                    </span>
+                    <p className="text-xs font-mono text-teal-400">
+                      {project.category}
+                    </p>
+                    {project.role && (
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {project.role}
+                      </p>
+                    )}
+                  </div>
 
-                        {/* Actions */}
-                        <div className="flex items-center gap-3">
-                          <Button asChild variant="outline" size="sm">
-                            <Link to={`/projects/${project.id}`}>View Details</Link>
-                          </Button>
-                          {project.liveUrl && (
-                            <Button asChild size="sm" variant="ghost" className="gap-1">
-                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink size={14} /> Live
-                              </a>
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </MobileCarousel>
-              </div>
+                  {/* Center Column: Title, Description, Stack, Links */}
+                  <div className="lg:col-span-5 space-y-3">
+                    <h2 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+                      {project.title}
+                    </h2>
 
-              {/* Desktop Grid */}
-              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {projects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ y: -5 }}
-                    className="glass-card overflow-hidden group"
-                  >
-                    {/* Project Image - Clickable */}
-                    <Link to={`/projects/${project.id}`} className="block">
-                      <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 relative overflow-hidden">
-                        {(() => {
-                          const mainImage = getProjectMainImage(project.id);
-                          if (mainImage) {
-                            return (
-                              <OptimizedImage
-                                src={mainImage}
-                                alt={project.title}
-                                loading="lazy"
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                skeletonClassName="rounded-none"
-                              />
-                            );
-                          }
-                          return (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <span className="text-4xl">🚀</span>
-                            </div>
-                          );
-                        })()}
-                        {/* Featured Badge */}
-                        {project.featured && (
-                          <div className="absolute top-3 left-3">
-                            <Badge className="bg-primary text-primary-foreground">Featured</Badge>
-                          </div>
-                        )}
-                      </div>
-                    </Link>
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-pretty">
+                      {project.description}
+                    </p>
 
-                    {/* Project Info */}
-                    <div className="p-6">
-                      <Link to={`/projects/${project.id}`}>
-                        <h3 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">{project.title}</h3>
-                      </Link>
-                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.description}</p>
-                      {project.impact?.[0] && (
-                        <p className="text-primary text-xs font-medium leading-relaxed mb-4 line-clamp-2">
-                          {project.impact[0]}
+                    {project.contribution && (
+                      <div className="pt-1">
+                        <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-0.5">
+                          My contribution:
                         </p>
-                      )}
-                      
-                      {/* Tech Stack */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.techStack?.slice(0, 4).map((tech) => (
-                          <Badge key={tech} variant="secondary" className="text-xs">
-                            {tech}
-                          </Badge>
-                        ))}
-                        {project.techStack && project.techStack.length > 4 && (
-                          <Badge variant="secondary" className="text-xs">
-                            +{project.techStack.length - 4}
-                          </Badge>
-                        )}
+                        <p className="text-sm text-foreground/90 font-medium">
+                          {project.contribution}
+                        </p>
                       </div>
+                    )}
 
-                      {/* Actions */}
-                      <div className="flex items-center gap-3">
-                        <Button asChild variant="outline" size="sm">
-                          <Link to={`/projects/${project.id}`}>View Details</Link>
-                        </Button>
-                        {project.liveUrl && (
-                          <Button asChild size="sm" variant="ghost" className="gap-1">
-                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink size={14} /> Live
-                            </a>
-                          </Button>
-                        )}
-                      </div>
+                    <div className="pt-2 text-xs font-mono text-muted-foreground">
+                      {project.techStack.join(" · ")}
                     </div>
-                  </motion.div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground">No projects yet. Check back soon!</p>
-            </div>
-          )}
+
+                    <div className="pt-3 flex items-center gap-4 text-xs font-medium">
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-foreground hover:text-teal-400 transition-colors"
+                        >
+                          View Project <ArrowUpRight size={13} />
+                        </a>
+                      )}
+                      <Link
+                        to={`/projects/${project.id}`}
+                        className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        Architecture Details <ArrowRight size={13} />
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Real Image or Highlights */}
+                  <div className="lg:col-span-4">
+                    {projectImage ? (
+                      <div className="rounded-lg overflow-hidden border border-white/10 bg-secondary/30 shadow-md">
+                        <img
+                          src={projectImage}
+                          alt={`${project.title} screenshot`}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full aspect-video object-cover object-top"
+                        />
+                      </div>
+                    ) : (
+                      <div className="rounded-lg border border-white/[0.08] bg-secondary/20 p-5 space-y-3">
+                        <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                          Key Deliverables
+                        </p>
+                        <ul className="space-y-2 text-xs text-muted-foreground leading-relaxed">
+                          {project.impact.slice(0, 2).map((point, i) => (
+                            <li key={i} className="flex items-start gap-2 text-pretty">
+                              <span className="text-teal-400 mt-1 h-1.5 w-1.5 rounded-full bg-teal-400 shrink-0" />
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
-      </Section>
+      </section>
     </PublicLayout>
   );
 }

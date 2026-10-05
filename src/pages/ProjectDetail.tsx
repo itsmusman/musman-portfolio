@@ -1,273 +1,234 @@
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, ChevronRight, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CheckCircle2, ChevronRight, ExternalLink } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
-import Section from "@/components/layout/Section";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import OptimizedImage from "@/components/ui/OptimizedImage";
-import ExpandableText from "@/components/ui/ExpandableText";
 import { projects } from "@/data/siteData";
 import { getProjectImages, getProjectMainImage } from "@/data/projectImages";
 import ProjectImageGallery from "@/components/projects/ProjectImageGallery";
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
-  const project = projects.find((p) => p.id === id);
+
+  // Lookup by slug ID or numeric legacy fallback
+  const project = projects.find(
+    (p) => p.id === id || p.orderNumber === id || (id === "1" && p.id === "xana")
+  );
 
   if (!project) {
     return (
       <PublicLayout>
-        <Section className="py-32">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-3xl font-bold mb-4">Project Not Found</h1>
-            <p className="text-muted-foreground mb-8">The project you're looking for doesn't exist.</p>
-            <Button asChild>
-              <Link to="/projects">
-                <ArrowLeft size={16} className="mr-2" /> Back to Projects
+        <section className="py-32">
+          <div className="max-w-4xl mx-auto px-4 text-center space-y-4">
+            <h1 className="text-3xl font-bold">Project Not Found</h1>
+            <p className="text-muted-foreground">The requested project could not be located.</p>
+            <div className="pt-2">
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-2 text-sm text-foreground hover:text-teal-400"
+              >
+                <ArrowLeft size={16} /> Back to Projects
               </Link>
-            </Button>
+            </div>
           </div>
-        </Section>
+        </section>
       </PublicLayout>
     );
   }
 
-  // Get related projects (excluding current)
-  const relatedProjects = projects.filter((p) => p.id !== id).slice(0, 3);
-  
-  // Get project images
-  const projectImages = id ? getProjectImages(id) : [];
+  const relatedProjects = projects.filter((p) => p.id !== project.id).slice(0, 3);
+  const projectImages = getProjectImages(project.id);
 
   return (
     <PublicLayout>
       <Helmet>
-        <title>{project.title} | Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
+        <title>{project.title} — Muhammad Usman | Project Architecture</title>
         <meta name="description" content={project.description} />
       </Helmet>
 
       {/* Breadcrumb */}
-      <div className="container mx-auto px-4 pt-8">
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-          <ChevronRight size={14} />
-          <Link to="/projects" className="hover:text-primary transition-colors">Projects</Link>
-          <ChevronRight size={14} />
-          <span className="text-foreground">{project.title}</span>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-4">
+        <nav className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <ChevronRight size={12} />
+          <Link to="/projects" className="hover:text-foreground transition-colors">Projects</Link>
+          <ChevronRight size={12} />
+          <span className="text-foreground font-medium">{project.title}</span>
         </nav>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[128px]" />
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-4xl mx-auto"
-          >
-            {/* Back Button */}
-            <Link 
-              to="/projects" 
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
+      {/* Main Header */}
+      <section className="py-8 md:py-14 border-b border-white/[0.08]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
+          <div>
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
             >
-              <ArrowLeft size={16} /> Back to Projects
+              <ArrowLeft size={13} /> Back to Projects
             </Link>
+          </div>
 
-            {/* Project Header */}
-            <div className="flex flex-wrap items-start gap-4 mb-6">
-              <h1 className="text-4xl md:text-5xl font-display font-bold">
-                {project.title}
-              </h1>
-              {project.featured && (
-                <Badge className="bg-primary text-primary-foreground text-sm">Featured</Badge>
+          <div className="space-y-3">
+            <div className="flex flex-wrap items-center gap-2.5 text-xs font-mono">
+              <span className="text-muted-foreground">{project.orderNumber}</span>
+              <span className="text-white/20">·</span>
+              <span className="text-teal-400">{project.category}</span>
+              {project.role && (
+                <>
+                  <span className="text-white/20">·</span>
+                  <span className="text-muted-foreground">{project.role}</span>
+                </>
               )}
             </div>
 
-            {/* Tech Stack */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              {project.techStack?.map((tech) => (
-                <Badge key={tech} variant="secondary" className="text-sm px-3 py-1">
-                  {tech}
-                </Badge>
-              ))}
-            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+              {project.title}
+            </h1>
 
-            {/* Project Images Gallery */}
-            <div className="mb-8 relative">
-              <ProjectImageGallery images={projectImages} projectTitle={project.title} />
-            </div>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-3xl leading-relaxed text-pretty font-normal">
+              {project.description}
+            </p>
+          </div>
 
-            {/* Actions */}
+          {/* Action & Links */}
+          <div className="flex flex-wrap items-center gap-3.5 pt-2">
             {project.liveUrl && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="mb-12"
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold rounded-md bg-foreground text-background hover:bg-foreground/90 transition-colors"
               >
-                <Button asChild size="lg" className="gap-2">
-                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink size={18} /> Visit Live Site
-                  </a>
-                </Button>
-              </motion.div>
+                Visit Live Site <ExternalLink size={14} />
+              </a>
             )}
-          </motion.div>
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-medium rounded-md border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] text-foreground transition-all"
+              >
+                View Repository <ArrowUpRight size={14} />
+              </a>
+            )}
+          </div>
+
+          {/* Gallery / Screenshot Preview */}
+          <div className="pt-6">
+            {projectImages.length > 0 ? (
+              <ProjectImageGallery images={projectImages} projectTitle={project.title} />
+            ) : (
+              <div className="rounded-lg border border-white/[0.08] bg-secondary/20 p-8 space-y-4">
+                <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                  System Overview
+                </p>
+                <p className="text-xl font-bold text-foreground">{project.title}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
+                  {project.contribution || project.description}
+                </p>
+                <div className="pt-3 border-t border-white/[0.06] text-xs font-mono text-muted-foreground">
+                  {project.techStack.join(" · ")}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* Project Details */}
-      <Section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="text-2xl font-semibold mb-6">About This Project</h2>
-              <div className="glass-card p-8">
-                <ExpandableText 
-                  text={project.description}
-                  maxLength={250}
-                  className="text-lg"
-                  mobileOnly={true}
-                />
-              </div>
-            </motion.div>
-
-            {/* Tech Stack Details */}
-            {project.impact && project.impact.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="mt-12"
-              >
-                <h2 className="text-2xl font-semibold mb-6">Impact</h2>
-                <div className="glass-card p-8">
-                  <div className="space-y-4">
-                    {project.impact.map((item) => (
-                      <div key={item} className="flex gap-3">
-                        <CheckCircle2 className="mt-1 text-primary flex-shrink-0" size={18} />
-                        <p className="text-muted-foreground leading-relaxed">{item}</p>
-                      </div>
-                    ))}
+      {/* Case Study Details */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-14">
+          {/* Engineering Responsibilities & Impact */}
+          {project.impact && project.impact.length > 0 && (
+            <div className="space-y-4">
+              <h2 className="text-lg sm:text-xl font-bold text-foreground">
+                Engineering Responsibilities & Key Outcomes
+              </h2>
+              <div className="border-t border-b border-white/[0.08] divide-y divide-white/[0.08]">
+                {project.impact.map((point, index) => (
+                  <div key={index} className="py-3.5 flex items-start gap-3 text-sm text-muted-foreground">
+                    <span className="text-teal-400 mt-1 h-1.5 w-1.5 rounded-full bg-teal-400 shrink-0" />
+                    <span className="text-pretty">{point}</span>
                   </div>
-                </div>
-              </motion.div>
-            )}
+                ))}
+              </div>
+            </div>
+          )}
 
-            {project.caseStudy && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-                className="mt-12"
-              >
-                <h2 className="text-2xl font-semibold mb-6">Case Study</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {[
-                    ["Challenge", project.caseStudy.challenge],
-                    ["Approach", project.caseStudy.approach],
-                    ["Outcome", project.caseStudy.outcome],
-                  ].map(([label, text]) => (
-                    <div key={label} className="glass-card p-6">
-                      <p className="text-primary text-sm font-semibold uppercase tracking-wide mb-3">{label}</p>
-                      <p className="text-muted-foreground text-sm leading-relaxed">{text}</p>
-                    </div>
-                  ))}
+          {/* Problem & Solution Breakdown */}
+          {project.caseStudy && (
+            <div className="space-y-6">
+              <h2 className="text-lg sm:text-xl font-bold text-foreground">
+                Challenge & Architectural Approach
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="border-t border-white/[0.08] pt-4 space-y-2">
+                  <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                    The Challenge
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed text-pretty">
+                    {project.caseStudy.challenge}
+                  </p>
                 </div>
-              </motion.div>
-            )}
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-12"
-            >
-              <h2 className="text-2xl font-semibold mb-6">Technologies Used</h2>
-              <div className="glass-card p-8">
-                <div className="flex flex-wrap gap-3">
-                  {project.techStack?.map((tech) => (
-                    <div 
-                      key={tech} 
-                      className="px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-foreground"
-                    >
-                      {tech}
-                    </div>
-                  ))}
+                <div className="border-t border-white/[0.08] pt-4 space-y-2">
+                  <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                    Technical Approach
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed text-pretty">
+                    {project.caseStudy.approach}
+                  </p>
+                </div>
+                <div className="border-t border-white/[0.08] pt-4 space-y-2">
+                  <p className="font-mono text-xs uppercase tracking-wider text-teal-400 font-semibold">
+                    Outcome
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed text-pretty">
+                    {project.caseStudy.outcome}
+                  </p>
                 </div>
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </Section>
+            </div>
+          )}
 
-      {/* Related Projects */}
-      {relatedProjects.length > 0 && (
-        <Section className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-semibold mb-8 text-center">Other Projects</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {relatedProjects.map((relatedProject, index) => (
-                <motion.div
-                  key={relatedProject.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Link
-                    to={`/projects/${relatedProject.id}`}
-                    className="block glass-card overflow-hidden group hover:border-primary/50 transition-colors"
-                  >
-                    <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 relative overflow-hidden">
-                      {(() => {
-                        const mainImage = getProjectMainImage(relatedProject.id);
-                        if (mainImage) {
-                          return (
-                            <OptimizedImage
-                              src={mainImage}
-                              alt={relatedProject.title}
-                              loading="lazy"
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                              skeletonClassName="rounded-none"
-                            />
-                          );
-                        }
-                        return (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-3xl">🚀</span>
-                          </div>
-                        );
-                      })()}
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-semibold group-hover:text-primary transition-colors">
-                        {relatedProject.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
-                        {relatedProject.description}
-                      </p>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+          {/* Technologies Used */}
+          <div className="space-y-3">
+            <h2 className="text-lg sm:text-xl font-bold text-foreground">Technologies Used</h2>
+            <div className="pt-2 text-sm text-muted-foreground font-mono">
+              {project.techStack.join("  ·  ")}
             </div>
           </div>
-        </Section>
-      )}
+
+          {/* Related Projects */}
+          {relatedProjects.length > 0 && (
+            <div className="pt-10 border-t border-white/[0.08] space-y-6">
+              <h2 className="text-lg sm:text-xl font-bold text-foreground">Other Projects</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {relatedProjects.map((rel) => {
+                  return (
+                    <Link
+                      key={rel.id}
+                      to={`/projects/${rel.id}`}
+                      className="group border-t border-white/[0.08] pt-4 block space-y-1.5"
+                    >
+                      <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
+                        <span>{rel.orderNumber}</span>
+                        <span>{rel.category}</span>
+                      </div>
+                      <p className="font-semibold text-foreground text-base group-hover:text-teal-400 transition-colors">
+                        {rel.title}
+                      </p>
+                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                        {rel.description}
+                      </p>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
     </PublicLayout>
   );
 }

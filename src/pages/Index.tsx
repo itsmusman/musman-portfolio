@@ -1,488 +1,266 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import type { ComponentType } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Eye, Mail, Code, Palette, Zap, Globe, Smartphone, Database, MessageSquare, LucideIcon } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight, Check, Copy } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import PublicLayout from "@/components/layout/PublicLayout";
-import { Typewriter, TextReveal } from "@/components/ui/typewriter";
-import { Badge } from "@/components/ui/badge";
-import OptimizedImage from "@/components/ui/OptimizedImage";
-import MobileCarousel from "@/components/ui/MobileCarousel";
-import ExpandableText from "@/components/ui/ExpandableText";
-import { profile, services, projects } from "@/data/siteData";
-import { getProjectMainImage } from "@/data/projectImages";
-import profileImage from "@/assets/profile-pic.png?format=webp&w=400";
-
-const features = [
-  { icon: Code, title: "Clean Code", description: "Well-structured, maintainable codebases" },
-  { icon: Palette, title: "Beautiful UI", description: "Stunning, pixel-perfect interfaces" },
-  { icon: Zap, title: "Fast Performance", description: "Optimized for speed and efficiency" },
-  { icon: Globe, title: "Responsive", description: "Perfect on all devices and screens" },
-];
-
-const iconMap: Record<string, LucideIcon> = {
-  Code,
-  Palette,
-  Zap,
-  MessageSquare,
-  Smartphone,
-  Database,
-  Globe,
-};
+import HeroEditorial from "@/components/home/HeroEditorial";
+import FeaturedProjectCarousel from "@/components/home/FeaturedProjectCarousel";
+import SkillsMarquee from "@/components/home/SkillsMarquee";
+import ProjectArchive from "@/components/home/ProjectArchive";
+import ExperienceEditorial from "@/components/home/ExperienceEditorial";
+import CurrentLearning from "@/components/home/CurrentLearning";
+import {
+  profile,
+  skillCategories,
+  educationAndTraining,
+  contactInfo,
+} from "@/data/siteData";
 
 export default function Index() {
+  const { toast } = useToast();
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(contactInfo.email);
+    setCopiedEmail(true);
+    toast({
+      title: "Email copied",
+      description: `${contactInfo.email} copied to clipboard.`,
+    });
+    setTimeout(() => setCopiedEmail(false), 2200);
+  };
+
+  const personStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: profile.name,
+    jobTitle: "Full Stack Software Engineer",
+    description: profile.heroSummary,
+    url: profile.portfolioUrl,
+    sameAs: [profile.linkedin, profile.github],
+    knowsAbout: [
+      "Software Engineering",
+      "Full Stack Development",
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Node.js",
+      "Python",
+      "FastAPI",
+      "Artificial Intelligence",
+      "Machine Learning",
+    ],
+  };
+
   return (
     <PublicLayout>
       <Helmet>
-        <title>Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
-        <meta name="description" content="Portfolio of Muhammad Usman — AI-augmented Senior Full Stack Engineer utilizing AI-assisted workflows (Cursor, Claude Code, Antigravity) to build React/Next.js frontends, Node/Python backends, and AI API integrations." />
+        <title>Muhammad Usman — Full Stack Software Engineer | AI/ML Transition</title>
+        <meta
+          name="description"
+          content="Portfolio of Muhammad Usman — Full Stack Software Engineer with 4+ years of professional experience across React, Next.js, Node.js, Python, and FastAPI, actively transitioning into AI/ML Engineering."
+        />
+        <link rel="canonical" href="https://musman-portfolio-one.vercel.app/" />
+        <meta property="og:title" content="Muhammad Usman — Full Stack Software Engineer | AI/ML Transition" />
+        <meta property="og:description" content="Portfolio of Muhammad Usman — Full Stack Software Engineer with 4+ years of experience across web and mobile applications, transitioning into AI/ML." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://musman-portfolio-one.vercel.app/" />
+        <meta property="og:image" content="/social-preview.jpeg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Muhammad Usman — Full Stack Software Engineer | AI/ML Transition" />
+        <meta name="twitter:description" content="Full Stack Software Engineer with 4+ years of professional experience building web and mobile applications, transitioning into AI/ML." />
+        <meta name="twitter:image" content="/social-preview.jpeg" />
+        <script type="application/ld+json">
+          {JSON.stringify(personStructuredData)}
+        </script>
       </Helmet>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden py-24">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
-        <div className="absolute top-1/4 -left-32 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[150px]" />
-        <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[150px]" />
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            {/* Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center mb-12"
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30 text-primary text-sm font-semibold tracking-wide mb-8">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                Available for freelance work
-              </span>
-              <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-                Hi, I'm <span className="gradient-text">{profile.name}</span>
-              </h1>
-              <div className="text-xl md:text-2xl text-primary font-semibold h-8">
-                <Typewriter 
-                  words={["Full Stack Developer", "AI-Augmented Engineer", "React & Node Specialist", "Python & AI API Integrator", "TypeScript Specialist"]}
-                  typingSpeed={80}
-                  deletingSpeed={40}
-                  delayBetweenWords={2500}
-                />
-              </div>
-            </motion.div>
+      {/* 1. HERO SECTION (90-100vh, Confident Editorial Typography, Subtle Motion & Scroll Invitation) */}
+      <HeroEditorial />
 
-            {/* Main Card - Same as About Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="glass-card p-8 md:p-12"
-            >
-              <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-stretch">
-                {/* Profile Image */}
-                <div className="relative flex-shrink-0 flex items-center justify-center">
-                  <div className="relative">
-                    <div className="w-56 h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-2xl overflow-hidden bg-gradient-to-br from-primary to-accent p-[3px]">
-                      <div className="w-full h-full rounded-2xl bg-card flex items-center justify-center">
-                        {profileImage ? (
-                          <OptimizedImage
-                            src={profileImage}
-                            alt={profile.name}
-                            priority={true}
-                            loading="eager"
-                            className="w-full h-full object-cover rounded-2xl"
-                            skeletonClassName="rounded-2xl"
-                          />
-                        ) : (
-                          <div className="text-7xl md:text-8xl">👨‍💻</div>
-                        )}
-                      </div>
-                    </div>
-                    {/* Decorative elements */}
-                    <div className="absolute -bottom-3 -right-3 w-20 h-20 bg-primary/30 rounded-xl -z-10" />
-                    <div className="absolute -top-3 -left-3 w-12 h-12 bg-accent/30 rounded-lg -z-10" />
-                  </div>
-                </div>
+      {/* 2. FEATURED PROJECTS CAROUSEL (01-03, Autoplay Progress, Drag/Swipe, Hover Pointer Label) */}
+      <FeaturedProjectCarousel />
 
-                {/* Bio Content */}
-                <div className="flex-1 flex flex-col justify-center text-left lg:text-left">
-                  <p className="text-primary font-bold text-lg md:text-xl mb-4 tracking-wide text-center lg:text-left">{profile.title}</p>
-                  <ExpandableText 
-                    text={profile.bio}
-                    maxLength={150}
-                    className="text-muted-foreground leading-relaxed text-base md:text-lg"
-                    buttonClassName="text-sm md:text-base"
-                    mobileOnly={true}
-                  />
-                </div>
-              </div>
+      {/* 3. SKILLS MARQUEE (Typography-Only Infinite Ticker, Pauses on Hover) */}
+      <SkillsMarquee />
 
-              {/* Stats Cards */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mt-10">
-                <div className="flex items-center justify-center gap-3 p-4 md:p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
-                  <div className="text-center">
-                    <p className="text-2xl md:text-4xl font-bold gradient-text">5+</p>
-                    <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wide">Years Experience</p>
-                  </div>
-                </div>
+      {/* 4. PROJECT ARCHIVE (Secondary Editorial Rows with Pointer-Follow Previews) */}
+      <ProjectArchive />
 
-                <div className="flex items-center justify-center gap-3 p-4 md:p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors">
-                  <div className="text-center">
-                    <p className="text-2xl md:text-4xl font-bold gradient-text">20+</p>
-                    <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wide">Projects Completed</p>
-                  </div>
-                </div>
+      {/* 5. EXPERIENCE SECTION (3-Column Editorial Grid with Expanding Dividers & Sequential Reveals) */}
+      <ExperienceEditorial />
 
-                <div className="flex items-center justify-center gap-3 p-4 md:p-5 rounded-xl bg-background/50 border border-border hover:border-primary/50 transition-colors col-span-2 md:col-span-1">
-                  <div className="text-center">
-                    <p className="text-2xl md:text-4xl font-bold gradient-text">10+</p>
-                    <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wide">Happy Clients</p>
-                  </div>
-                </div>
-              </div>
+      {/* 6. CURRENT LEARNING (AI/ML Upskilling, NIAI/NAVTTC, Subtle Accent Line) */}
+      <CurrentLearning />
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-10">
-                <Button asChild size="lg" className="glow text-base px-6 sm:px-8 h-12">
-                  <Link to="/projects">
-                    View My Work <ArrowRight className="ml-2" size={18} />
-                  </Link>
-                </Button>
-
-                {profile.resumeUrl && (
-                  <Button asChild variant="outline" size="lg" className="text-base px-6 h-12 border-primary/50 bg-primary/10 hover:bg-primary/20">
-                    <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
-                      <Eye className="mr-2" size={18} /> View Resume
-                    </a>
-                  </Button>
-                )}
-                
-                <Button asChild variant="secondary" size="lg" className="text-base px-6 h-12 border border-border">
-                  <Link to="/contact">
-                    <Mail className="mr-2" size={18} /> Get in Touch
-                  </Link>
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-24 bg-card/50">
-        <div className="container mx-auto px-6 md:px-12 lg:px-20">
-          <div className="text-center mb-16">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-display font-bold mb-4"
-            >
-              What I <span className="gradient-text">Deliver</span>
-            </motion.h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Building exceptional digital experiences with modern technologies
+      {/* 7. FORMAL EDUCATION */}
+      <section id="education" aria-label="Education" className="py-16 md:py-24 border-b border-white/[0.08]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="space-y-3 mb-10">
+            <p className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
+              Education & Learning
             </p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              Formal Education
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="glass-card p-6 text-center group hover:bg-primary/5 transition-colors"
+          <div className="border-t border-b border-white/[0.08] divide-y divide-white/[0.08]">
+            {educationAndTraining.map((item, index) => (
+              <div
+                key={index}
+                className="py-5 sm:py-6 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 items-baseline"
               >
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                  <feature.icon className="text-primary" size={24} />
+                <div className="md:col-span-3 font-mono text-xs sm:text-sm text-muted-foreground">
+                  {item.period}
                 </div>
-                <h3 className="font-semibold mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
-              </motion.div>
+
+                <div className="md:col-span-4 space-y-0.5">
+                  <h3 className="text-base font-semibold text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    {item.institution}
+                  </p>
+                </div>
+
+                <div className="md:col-span-5 text-xs sm:text-sm text-muted-foreground leading-relaxed text-pretty">
+                  {item.description}
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      {services.length > 0 && (
-        <section id="services" className="py-24">
-          <div className="container mx-auto px-6 md:px-12 lg:px-20">
-            <div className="text-center mb-16">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-3xl md:text-4xl font-display font-bold mb-4"
-              >
-                My <span className="gradient-text">Services</span>
-              </motion.h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Comprehensive frontend development solutions tailored to your needs
-              </p>
-            </div>
-
-            {/* Mobile Carousel */}
-            <div className="md:hidden">
-              <MobileCarousel showDots={true} showArrows={false}>
-                {services.slice(0, 6).map((service, index) => {
-                  const IconComponent = iconMap[service.icon] || Code;
-                  return (
-                    <motion.div
-                      key={service.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="glass-card p-6 hover:border-primary/50 transition-all group"
-                    >
-                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 transition-colors">
-                        <IconComponent className="text-primary" size={28} />
-                      </div>
-                      <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                      <ExpandableText text={service.description} maxLength={120} mobileOnly={true} />
-                    </motion.div>
-                  );
-                })}
-              </MobileCarousel>
-            </div>
-
-            {/* Desktop Grid */}
-            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.slice(0, 6).map((service, index) => {
-                const IconComponent = iconMap[service.icon] || Code;
-                return (
-                  <motion.div
-                    key={service.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ y: -5 }}
-                    className="glass-card p-8 hover:border-primary/50 transition-all group"
-                  >
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 transition-colors">
-                      <IconComponent className="text-primary" size={28} />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{service.description}</p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Projects Section */}
-      {projects.length > 0 && (
-        <section id="projects" className="py-24 bg-card/50">
-          <div className="container mx-auto px-6 md:px-12 lg:px-20">
-            <div className="text-center mb-16">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-3xl md:text-4xl font-display font-bold mb-4"
-              >
-                My <span className="gradient-text">Projects</span>
-              </motion.h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                A showcase of my recent work and accomplishments
-              </p>
-            </div>
-
-            {/* Mobile Carousel */}
-            <div className="sm:hidden">
-              <MobileCarousel showDots={true} showArrows={false}>
-                {projects.slice(0, 4).map((project, index) => {
-                  const projectImage = getProjectMainImage(project.id);
-                  return (
-                    <motion.div
-                      key={project.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.05 }}
-                      className="glass-card overflow-hidden group flex flex-col"
-                    >
-                      <Link to={`/projects/${project.id}`} className="block">
-                        <div className="aspect-[4/3] bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
-                          {projectImage ? (
-                            <OptimizedImage
-                              src={projectImage}
-                              alt={project.title}
-                              loading="lazy"
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                              skeletonClassName="rounded-none"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-4xl">
-                              💻
-                            </div>
-                          )}
-                          {project.featured && (
-                            <div className="absolute top-2 left-2">
-                              <Badge className="bg-primary text-primary-foreground text-xs">Featured</Badge>
-                            </div>
-                          )}
-                          {project.liveUrl && (
-                            <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
-                              <Button asChild size="sm" className="bg-primary/90 hover:bg-primary">
-                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
-                                  Live Demo <ArrowRight className="ml-1" size={14} />
-                                </a>
-                              </Button>
-                            </div>
-                          )}
-                        </div>
-                      </Link>
-                      <div className="p-5">
-                        <Link to={`/projects/${project.id}`}>
-                          <h3 className="font-semibold text-lg mb-2 hover:text-primary transition-colors">{project.title}</h3>
-                        </Link>
-                        <ExpandableText text={project.description} maxLength={100} mobileOnly={true} />
-                        {project.impact?.[0] && (
-                          <p className="text-primary text-xs font-medium leading-relaxed mt-3">
-                            {project.impact[0]}
-                          </p>
-                        )}
-                        <div className="flex flex-wrap gap-1.5 mt-4">
-                          {project.techStack?.slice(0, 3).map((tech) => (
-                            <span
-                              key={tech}
-                              className="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                          {project.techStack && project.techStack.length > 3 && (
-                            <span className="px-2 py-0.5 rounded-md bg-muted text-muted-foreground text-xs">
-                              +{project.techStack.length - 3}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </MobileCarousel>
-            </div>
-
-            {/* Desktop Grid */}
-            <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {projects.slice(0, 4).map((project, index) => {
-                const projectImage = getProjectMainImage(project.id);
-                return (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.05 }}
-                    whileHover={{ y: -5 }}
-                    className="glass-card overflow-hidden group flex flex-col"
-                  >
-                    <Link to={`/projects/${project.id}`} className="block">
-                      <div className="aspect-[4/3] bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
-                        {projectImage ? (
-                          <OptimizedImage
-                            src={projectImage}
-                            alt={project.title}
-                            loading="lazy"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            skeletonClassName="rounded-none"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-4xl">
-                            💻
-                          </div>
-                        )}
-                        {project.featured && (
-                          <div className="absolute top-2 left-2">
-                            <Badge className="bg-primary text-primary-foreground text-xs">Featured</Badge>
-                          </div>
-                        )}
-                        {project.liveUrl && (
-                          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
-                            <Button asChild size="sm" className="bg-primary/90 hover:bg-primary">
-                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
-                                Live Demo <ArrowRight className="ml-1" size={14} />
-                              </a>
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-                    <div className="p-5">
-                      <Link to={`/projects/${project.id}`}>
-                        <h3 className="font-semibold text-lg mb-2 hover:text-primary transition-colors">{project.title}</h3>
-                      </Link>
-                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.description}</p>
-                      {project.impact?.[0] && (
-                        <p className="text-primary text-xs font-medium leading-relaxed mb-4 line-clamp-2">
-                          {project.impact[0]}
-                        </p>
-                      )}
-                      <div className="flex flex-wrap gap-1.5">
-                        {project.techStack?.slice(0, 3).map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                        {project.techStack && project.techStack.length > 3 && (
-                          <span className="px-2 py-0.5 rounded-md bg-muted text-muted-foreground text-xs">
-                            +{project.techStack.length - 3}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mt-12"
-            >
-              <Button asChild variant="outline" size="lg">
-                <Link to="/projects">View All Projects <ArrowRight className="ml-2" size={18} /></Link>
-              </Button>
-            </motion.div>
-          </div>
-        </section>
-      )}
-
-      {/* CTA Section */}
-      <section id="contact" className="py-24">
-        <div className="container mx-auto px-6 md:px-12 lg:px-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
-              Let's Work <span className="gradient-text">Together</span>
-            </h2>
-            <p className="text-muted-foreground mb-8 text-lg">
-              Have a project in mind? I'd love to help bring your ideas to life.
+      {/* 8. TECHNICAL PROFICIENCIES */}
+      <section id="skills" aria-label="Technical Skills" className="py-20 md:py-28 border-b border-white/[0.08] scroll-mt-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="space-y-3 mb-12 sm:mb-16">
+            <p className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
+              Technical Proficiencies
             </p>
-            <Button asChild size="lg" className="glow text-base px-8">
-              <Link to="/contact">
-                Get in Touch <ArrowRight className="ml-2" size={18} />
-              </Link>
-            </Button>
-          </motion.div>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              Technical Skills
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-xl text-pretty">
+              Core technologies and tools utilized across production software engineering and AI/ML upskilling.
+            </p>
+          </div>
+
+          <div className="border-t border-b border-white/[0.08] divide-y divide-white/[0.08]">
+            {skillCategories.map((group, index) => (
+              <div
+                key={index}
+                className="py-6 sm:py-7 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-start"
+              >
+                <div className="md:col-span-3 text-base font-bold text-foreground tracking-tight">
+                  {group.category}
+                </div>
+                <div className="md:col-span-4 text-xs sm:text-sm text-muted-foreground leading-relaxed text-pretty">
+                  {group.description}
+                </div>
+                <div className="md:col-span-5 flex flex-wrap gap-1.5 pt-0.5">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="font-mono text-xs px-2.5 py-1 rounded bg-white/[0.04] text-foreground/90 border border-white/[0.08]"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 9. ABOUT SECTION */}
+      <section id="about" aria-label="About" className="py-20 md:py-28 border-b border-white/[0.08] scroll-mt-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="space-y-3 mb-8">
+            <p className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
+              About
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              A little about me
+            </h2>
+          </div>
+
+          <div className="max-w-2xl space-y-4 text-base sm:text-lg text-muted-foreground leading-relaxed font-normal text-pretty">
+            {profile.aboutParagraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10. CONTACT SECTION */}
+      <section id="contact" aria-label="Contact" className="py-20 md:py-28 scroll-mt-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="space-y-4 max-w-xl">
+            <p className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
+              Contact
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              Have a project or engineering opportunity?
+            </h2>
+            <p className="text-base text-muted-foreground leading-relaxed text-pretty">
+              I'm actively interested in full-stack software engineering and AI/ML engineering transition opportunities. Let's discuss how my background fits your team.
+            </p>
+
+            <div className="space-y-3 pt-4">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-mono text-muted-foreground w-16">Email</span>
+                <a
+                  href={`mailto:${contactInfo.email}`}
+                  className="text-base font-semibold text-foreground hover:text-teal-400 transition-colors"
+                >
+                  {contactInfo.email}
+                </a>
+                <button
+                  onClick={handleCopyEmail}
+                  className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1 ml-2 transition-colors"
+                  aria-label="Copy email address"
+                >
+                  {copiedEmail ? (
+                    <span className="text-teal-400 flex items-center gap-1 font-mono text-[11px]">
+                      <Check size={13} /> Copied
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1 font-mono text-[11px]">
+                      <Copy size={13} /> Copy
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-mono text-muted-foreground w-16">LinkedIn</span>
+                <a
+                  href={contactInfo.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 transition-colors"
+                >
+                  linkedin.com/in/m-usman01 <ArrowUpRight size={13} />
+                </a>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-mono text-muted-foreground w-16">GitHub</span>
+                <a
+                  href={contactInfo.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 transition-colors"
+                >
+                  github.com/itsmusman <ArrowUpRight size={13} />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </PublicLayout>

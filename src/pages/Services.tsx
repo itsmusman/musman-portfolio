@@ -1,141 +1,134 @@
 import { Helmet } from "react-helmet-async";
-import type { ComponentType } from "react";
-import { motion } from "framer-motion";
-import { Code, Palette, Zap, MessageSquare, Smartphone, Database, LucideIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowUpRight, Code2, Database, Layers, Server, Smartphone, Terminal, Cpu } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
-import Section from "@/components/layout/Section";
-import MobileCarousel from "@/components/ui/MobileCarousel";
-import ExpandableText from "@/components/ui/ExpandableText";
-import { services } from "@/data/siteData";
-
-const iconMap: Record<string, LucideIcon> = {
-  Code,
-  Palette,
-  Zap,
-  MessageSquare,
-  Smartphone,
-  Database,
-};
+import { skillCategories, profile } from "@/data/siteData";
 
 export default function Services() {
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case "Programming":
+        return <Terminal size={16} className="text-teal-400" />;
+      case "Frontend":
+        return <Code2 size={16} className="text-teal-400" />;
+      case "Mobile":
+        return <Smartphone size={16} className="text-teal-400" />;
+      case "Backend & APIs":
+        return <Server size={16} className="text-teal-400" />;
+      case "Data":
+        return <Database size={16} className="text-teal-400" />;
+      case "AI / ML":
+        return <Cpu size={16} className="text-teal-400" />;
+      case "Cloud & DevOps":
+        return <Layers size={16} className="text-teal-400" />;
+      default:
+        return <Code2 size={16} className="text-teal-400" />;
+    }
+  };
+
   return (
     <PublicLayout>
       <Helmet>
-        <title>Services | Muhammad Usman — AI-Augmented Senior Full Stack Engineer</title>
-        <meta name="description" content="Explore AI-augmented Full Stack engineering services by Muhammad Usman — JavaScript/TypeScript applications, React/Next.js UIs, Node/Python backend APIs, database design, and OpenAI/LLM integrations." />
+        <title>Capabilities & Architecture | Muhammad Usman — Full Stack Software Engineer</title>
+        <meta
+          name="description"
+          content="Engineering capabilities, technical stack, and software development proficiencies of Muhammad Usman — Full Stack Software Engineer transitioning into AI/ML."
+        />
+        <link rel="canonical" href="https://musman-portfolio-one.vercel.app/services" />
       </Helmet>
 
-      {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
-        <div className="absolute top-1/2 right-0 w-96 h-96 bg-accent/20 rounded-full blur-[128px] -translate-y-1/2" />
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              My <span className="gradient-text">Services</span>
+      {/* Header */}
+      <section className="pt-28 pb-12 md:pt-36 md:pb-16 border-b border-white/[0.08]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-4">
+          <p className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
+            Engineering Capabilities
+          </p>
+
+          <div className="space-y-2">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+              Technical Proficiencies & Systems Architecture
             </h1>
-            <p className="text-xl text-muted-foreground">
-              Comprehensive full-stack development solutions tailored to your needs
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl text-pretty font-normal">
+              Full-stack software engineering backed by 4+ years of production experience across web applications, REST & WebSocket APIs, and expanding AI/ML pipelines.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <Section className="py-24">
-        <div className="container mx-auto px-4">
-          {/* Mobile Carousel */}
-          <div className="md:hidden max-w-5xl mx-auto">
-            <MobileCarousel showDots={true} showArrows={false}>
-              {services.map((service, index) => {
-                const IconComponent = iconMap[service.icon] || Code;
-                return (
-                  <motion.div
-                    key={service.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="glass-card p-6 hover:border-primary/50 transition-all group cursor-default"
-                  >
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 transition-colors">
-                      <IconComponent className="text-primary" size={28} />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                    <ExpandableText text={service.description} maxLength={120} mobileOnly={true} />
-                  </motion.div>
-                );
-              })}
-            </MobileCarousel>
-          </div>
-
-          {/* Desktop Grid */}
-          <div className="hidden md:grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {services.map((service, index) => {
-              const IconComponent = iconMap[service.icon] || Code;
-              return (
-                <motion.div
-                  key={service.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="glass-card p-8 hover:border-primary/50 transition-all group cursor-default"
-                >
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 transition-colors">
-                    <IconComponent className="text-primary" size={28} />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{service.description}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </Section>
-
-      {/* Process Section */}
-      <Section className="py-24 bg-card/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              My <span className="gradient-text">Process</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              A streamlined approach to delivering exceptional results
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {[
-              { step: "01", title: "Discovery", description: "Understanding your goals and requirements" },
-              { step: "02", title: "Planning", description: "Creating a detailed roadmap and timeline" },
-              { step: "03", title: "Development", description: "Building with clean, maintainable code" },
-              { step: "04", title: "Delivery", description: "Testing, optimization, and launch" },
-            ].map((item, index) => (
-              <motion.div
-                key={item.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center"
+      {/* Editorial Capabilities Rows */}
+      <section className="py-16 md:py-24 border-b border-white/[0.08]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="border-t border-b border-white/[0.08] divide-y divide-white/[0.08]">
+            {skillCategories.map((group, idx) => (
+              <div
+                key={group.category}
+                className="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start"
               >
-                <div className="text-5xl font-display font-bold gradient-text mb-4">{item.step}</div>
-                <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm">{item.description}</p>
-              </motion.div>
+                {/* Column 1: Index, Icon & Category */}
+                <div className="md:col-span-3 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs text-muted-foreground/70">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <span className="inline-flex items-center justify-center">
+                      {getCategoryIcon(group.category)}
+                    </span>
+                    <h2 className="text-base font-bold text-foreground tracking-tight">
+                      {group.category}
+                    </h2>
+                  </div>
+                </div>
+
+                {/* Column 2: Scope & Description */}
+                <div className="md:col-span-4 text-sm text-muted-foreground leading-relaxed text-pretty">
+                  {group.description}
+                </div>
+
+                {/* Column 3: Technologies & Stack */}
+                <div className="md:col-span-5 space-y-3">
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="font-mono text-xs px-2.5 py-1 rounded bg-white/[0.04] text-foreground/90 border border-white/[0.08]"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
+
+          {/* Editorial CTA */}
+          <div className="mt-16 sm:mt-20 pt-10 border-t border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div className="space-y-1">
+              <h3 className="text-lg font-bold text-foreground tracking-tight">
+                Looking to discuss engineering roles or architecture?
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Available for full-stack and applied AI/ML engineering roles.
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <a
+                href={`mailto:${profile.email}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-foreground bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 hover:border-white/25 rounded-md transition-all"
+              >
+                <span>Email Usman</span>
+                <ArrowUpRight size={13} className="text-teal-400" />
+              </a>
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                View Projects
+              </Link>
+            </div>
+          </div>
         </div>
-      </Section>
+      </section>
     </PublicLayout>
   );
 }

@@ -1,5 +1,6 @@
 import useScrollToTop from "@/hooks/useScrollToTop";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 // Public pages
 import Index from "@/pages/Index";
@@ -12,16 +13,19 @@ import NotFound from "@/pages/NotFound";
 
 export default function AppRoutes() {
   useScrollToTop();
+  const location = useLocation();
 
   return (
-    <Routes>
-      <Route path="/" element={<Index />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/projects" element={<Projects />} />
-      <Route path="/projects/:id" element={<ProjectDetail />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Index />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:id" element={<ProjectDetail />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AnimatePresence>
   );
 }

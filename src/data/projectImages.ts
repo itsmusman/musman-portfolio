@@ -1,3 +1,5 @@
+// Project Image Mappings for Muhammad Usman Portfolio
+
 // XANA Project Images
 import xanaHero from "@/assets/projects/xana/xana-hero.png?format=webp&w=1200";
 import xanaFaq from "@/assets/projects/xana/xana-faq.png?format=webp&w=800";
@@ -30,16 +32,6 @@ import purelabNews from "@/assets/projects/purelab/purelab-news.png?format=webp&
 import purelabFooter from "@/assets/projects/purelab/purelab-footer.png?format=webp&w=800";
 import purelabAbout from "@/assets/projects/purelab/purelab-about.png?format=webp&w=800";
 
-// Kokobeo Project Images
-import kokobeoHero from "@/assets/projects/kokobeo/kokobeo-hero.png?format=webp&w=1200";
-import kokobeoLocations from "@/assets/projects/kokobeo/kokobeo-locations.png?format=webp&w=800";
-import kokobeoSignup from "@/assets/projects/kokobeo/kokobeo-signup.png?format=webp&w=800";
-
-// Vineyard Vines Project Images
-import vineyardvinesHero from "@/assets/projects/vineyardvines/vineyardvines-hero.png?format=webp&w=1200";
-import vineyardvinesPromo from "@/assets/projects/vineyardvines/vineyardvines-promo.png?format=webp&w=800";
-import vineyardvinesFooter from "@/assets/projects/vineyardvines/vineyardvines-footer.png?format=webp&w=800";
-
 // SpeedMeter Project Images
 import speedmeterIcon from "@/assets/projects/speedmeter/speedmeter-icon.png?format=webp&w=400";
 import speedmeterStart from "@/assets/projects/speedmeter/speedmeter-start.png?format=webp&w=800";
@@ -51,55 +43,67 @@ export type ProjectImage = {
   alt: string;
 };
 
+const xanaImages: ProjectImage[] = [
+  { src: xanaHero, alt: "XANA Metaverse Platform Overview" },
+  { src: xanaSpaces, alt: "XANA Virtual Spaces & Environments" },
+  { src: xanaGamebuilder, alt: "XANA AI Game Builder" },
+  { src: xanaFeed, alt: "XANA User Feed & Social Workflows" },
+  { src: xanaLogin, alt: "XANA Web3 Auth & Login" },
+  { src: xanaEarn, alt: "XANA Monetization Features" },
+  { src: xanaFaq, alt: "XANA Platform FAQ" },
+  { src: xanaFooter, alt: "XANA Ecosystem Navigation" },
+];
+
+const amaizingImages: ProjectImage[] = [
+  { src: amaizingHero, alt: "Amaizing AI E-commerce Market Intelligence" },
+  { src: amaizingSellers, alt: "Amaizing Amazon Sellers Performance Engine" },
+  { src: amaizingLogin, alt: "Amaizing Brand Intelligence Dashboard Login" },
+  { src: amaizingContact, alt: "Amaizing Enterprise Consultation Flow" },
+];
+
+const truckupImages: ProjectImage[] = [
+  { src: truckupHero, alt: "TruckUp On-Demand Roadside Assistance" },
+  { src: truckupMechanic, alt: "TruckUp Mobile Mechanic Dispatch" },
+  { src: truckupMaintenance, alt: "TruckUp Fleet Maintenance System" },
+  { src: truckupTestimonial, alt: "TruckUp Operator Experience" },
+  { src: truckupTeam, alt: "TruckUp Verified Technicians Network" },
+  { src: truckupSignup, alt: "TruckUp Service Provider Onboarding" },
+  { src: truckupFooter, alt: "TruckUp Nationwide Coverage" },
+];
+
+const purelabImages: ProjectImage[] = [
+  { src: purelabHero, alt: "PureLab Clinical Diagnostic Network" },
+  { src: purelabStats, alt: "PureLab Diagnostic Accuracy Metrics" },
+  { src: purelabAbout, alt: "PureLab Healthcare Verification" },
+  { src: purelabNews, alt: "PureLab Laboratory Updates" },
+  { src: purelabFooter, alt: "PureLab Clinical Center Network" },
+];
+
+const speedmeterImages: ProjectImage[] = [
+  { src: speedmeterStart, alt: "SpeedMeter Instant Network Speed Testing" },
+  { src: speedmeterTesting, alt: "SpeedMeter Latency & Bandwidth Computation" },
+  { src: speedmeterResult, alt: "SpeedMeter Download & Upload Speed Result" },
+  { src: speedmeterIcon, alt: "SpeedMeter Chrome Extension Icon" },
+];
+
 export const projectImages: Record<string, ProjectImage[]> = {
-  "1": [ // XANA
-    { src: xanaHero, alt: "XANA Hero - Join Now" },
-    { src: xanaSpaces, alt: "XANA Hot Spaces & Games" },
-    { src: xanaGamebuilder, alt: "XANA AI Game Builder" },
-    { src: xanaFeed, alt: "XANA User Feed" },
-    { src: xanaLogin, alt: "XANA Login" },
-    { src: xanaEarn, alt: "XANA Earn in Metaverse" },
-    { src: xanaFaq, alt: "XANA FAQ Section" },
-    { src: xanaFooter, alt: "XANA Footer" },
-  ],
-  "2": [ // TruckUp
-    { src: truckupHero, alt: "TruckUp - Get Back on the Road, Fast" },
-    { src: truckupMechanic, alt: "TruckUp - Find a Mechanic" },
-    { src: truckupTestimonial, alt: "TruckUp - Customer Testimonial" },
-    { src: truckupTeam, alt: "TruckUp - Top 3% of Mechanics" },
-    { src: truckupMaintenance, alt: "TruckUp - Fleet Maintenance" },
-    { src: truckupSignup, alt: "TruckUp - Provider Signup" },
-    { src: truckupFooter, alt: "TruckUp - Footer & Cities" },
-  ],
-  "3": [ // PureLab
-    { src: purelabHero, alt: "PureLab - Defines Dependability" },
-    { src: purelabStats, alt: "PureLab - Always Dependable Statistics" },
-    { src: purelabAbout, alt: "PureLab - Every Test is a Testament to Trust" },
-    { src: purelabNews, alt: "PureLab - News Beats" },
-    { src: purelabFooter, alt: "PureLab - Footer" },
-  ],
-  "4": [ // Amaizing
-    { src: amaizingHero, alt: "Amaizing - AI E-commerce Growth Platform" },
-    { src: amaizingSellers, alt: "Amaizing - Amazon Sellers RevUp Engine" },
-    { src: amaizingLogin, alt: "Amaizing - Login Page" },
-    { src: amaizingContact, alt: "Amaizing - Contact Form" },
-  ],
-  "5": [ // Kokobeo
-    { src: kokobeoHero, alt: "Kokobeo - Find Professional Services" },
-    { src: kokobeoLocations, alt: "Kokobeo - Available Locations" },
-    { src: kokobeoSignup, alt: "Kokobeo - Join Professional Network" },
-  ],
-  "6": [ // Vineyard Vines
-    { src: vineyardvinesHero, alt: "Vineyard Vines - Sweater Season" },
-    { src: vineyardvinesPromo, alt: "Vineyard Vines - 20% Off Promo" },
-    { src: vineyardvinesFooter, alt: "Vineyard Vines - Footer" },
-  ],
-  "7": [ // SpeedMeter
-    { src: speedmeterStart, alt: "SpeedMeter - Internet Speed Test" },
-    { src: speedmeterTesting, alt: "SpeedMeter - Testing in Progress" },
-    { src: speedmeterResult, alt: "SpeedMeter - Speed Result" },
-    { src: speedmeterIcon, alt: "SpeedMeter - Extension Icon" },
-  ],
+  // New slug IDs
+  "unsurfaced-ai": [], // Pure technical typography presentation (no fabricated screenshots)
+  "amaizing": amaizingImages,
+  "blocktrust": [], // Pure technical typography presentation (no fabricated screenshots)
+  "xana": xanaImages,
+  "writeout": [], // Pure technical typography presentation
+  "truckup": truckupImages,
+  "purelab": purelabImages,
+  "colivease": [], // Pure technical typography presentation
+  "speedmeter": speedmeterImages,
+
+  // Numeric backward compatibility
+  "1": xanaImages,
+  "2": truckupImages,
+  "3": purelabImages,
+  "4": amaizingImages,
+  "7": speedmeterImages,
 };
 
 export const getProjectImages = (projectId: string): ProjectImage[] => {

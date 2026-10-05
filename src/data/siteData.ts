@@ -1,317 +1,388 @@
-// Static site data - Edit this file to update your portfolio content
+import profilePic from "@/assets/profile-pic.jpeg";
 
-import profilePic from "@/assets/profile-pic.png?format=webp&w=400";
+export interface Project {
+  id: string;
+  orderNumber: string;
+  title: string;
+  category: string;
+  description: string;
+  contribution?: string;
+  techStack: string[];
+  liveUrl: string | null;
+  githubUrl?: string | null;
+  featured: boolean;
+  role?: string;
+  impact: string[];
+  caseStudy?: {
+    challenge: string;
+    approach: string;
+    outcome: string;
+  };
+}
+
+export interface SkillCategory {
+  category: string;
+  description: string;
+  skills: string[];
+}
+
+export interface ExperienceItem {
+  period: string;
+  title: string;
+  company: string;
+  location: string;
+  type: "employment" | "upskilling";
+  summary?: string;
+  responsibilities: string[];
+}
 
 export const profile = {
-  name: "MUHAMMAD USMAN",
-  title: "SENIOR FULL STACK SOFTWARE ENGINEER",
-  bio: "I am a Senior Software Engineer with over 5 years of professional experience specializing in building scalable web and mobile applications. Leveraging advanced AI coding assistants and agents (such as Antigravity, Claude Code, and Cursor), I rapidly bridge frontend architectures (React.js, Next.js, TypeScript) with backend services, database schemas, and Python scripts. This AI-augmented workflow allows me to build complete, full-stack applications, automate workflows, and integrate AI APIs (such as OpenAI/LLMs) with high speed and precision. Passionate about clean architecture, system optimization, and utilizing intelligent tools to deliver high-quality, modern software solutions.",
-  education:
-    "Bachelor of Science in Computer Science - University of Lahore (2017-2021)",
-  experience: "5+ Years in Full Stack Development",
+  name: "Muhammad Usman",
+  initials: "MU",
+  title: "Full Stack Software Engineer",
+  subtitle: "AI/ML Engineering Transition",
+  headline: "Full Stack Software Engineer | AI/ML Engineering Transition",
+  experienceYears: "4+ years",
+  location: "Lahore, Pakistan",
+  email: "itsmusman1@gmail.com",
+  phone: "+92 344 6153337",
+  linkedin: "https://www.linkedin.com/in/m-usman01/",
+  github: "https://github.com/itsmusman",
+  portfolioUrl: "https://musman-portfolio-one.vercel.app/",
+  resumeUrl: "/Muhammad-Usman-Resume.pdf",
   profileImageUrl: profilePic,
-  resumeUrl: "/muhammad-usman-resume.pdf",
+
+  // Grounded Hero supporting copy
+  heroSummary:
+    "Full Stack Software Engineer with 4+ years of professional experience building web and mobile applications across SaaS, healthcare, e-commerce, fintech, Web3, and AI-driven products. Currently expanding into AI/ML Engineering through hands-on learning and practical projects.",
+
+  // Authentic About Bio
+  aboutParagraphs: [
+    "I'm a Full Stack Software Engineer with 4+ years of professional experience building web and mobile applications.",
+    "My background includes React, Next.js, Node.js, TypeScript, Python and FastAPI, with experience across SaaS, healthcare, e-commerce, fintech, Web3 and AI-driven products.",
+    "I'm now expanding my focus into AI/ML Engineering through the NIAI program under NAVTTC, while building practical projects and strengthening my Python and machine learning skills.",
+  ],
+  bio:
+    "I'm a Full Stack Software Engineer with 4+ years of professional experience building web and mobile applications.\n\nMy background includes React, Next.js, Node.js, TypeScript, Python and FastAPI, with experience across SaaS, healthcare, e-commerce, fintech, Web3 and AI-driven products.\n\nI'm now expanding my focus into AI/ML Engineering through the NIAI program under NAVTTC, while building practical projects and strengthening my Python and machine learning skills.",
+
+  education: "Bachelor of Science in Computer Science — University of Lahore (2017 – 2021)",
+  currentUpskilling: "AI/ML Engineering Program — NIAI (NETSOL Institute of Artificial Intelligence) under NAVTTC (3 months — In Progress)",
 };
 
 export const siteMeta = {
-  title: "Muhammad Usman Portfolio — Senior Full Stack Software Engineer",
+  title: "Muhammad Usman — Full Stack Software Engineer | AI/ML Transition",
   description:
-    "Muhammad Usman is a Senior Full Stack Software Engineer building JavaScript/TypeScript applications, React/Next.js frontends, Node/Python backends, AI integrations, and production-ready web platforms.",
-  image: "/social-preview.png",
+    "Muhammad Usman is a Full Stack Software Engineer with 4+ years of experience in React, Next.js, Node.js, Python, and FastAPI, actively transitioning into AI/ML Engineering.",
+  image: "/social-preview.jpeg",
   type: "website",
 };
-
-export const services = [
-  {
-    id: "1",
-    title: "AI-Augmented Development",
-    description:
-      "Utilizing advanced AI coding agents (Antigravity, Claude Code, Cursor) to rapidly build full-stack features, write scripts, and optimize codebases.",
-    icon: "Code",
-  },
-  {
-    id: "2",
-    title: "JavaScript & TypeScript Engineering",
-    description:
-      "Building maintainable JavaScript and TypeScript applications with strong typing, reusable architecture, clean state management, and production-ready frontend/backend logic.",
-    icon: "Code",
-  },
-  {
-    id: "3",
-    title: "React.js & Next.js Development",
-    description:
-      "Creating highly interactive user interfaces and SEO-optimized web apps, utilizing server-side rendering and component-based structures.",
-    icon: "Code",
-  },
-  {
-    id: "4",
-    title: "Backend API Engineering",
-    description:
-      "Designing and developing robust RESTful and GraphQL APIs using Node.js and Express.js, featuring secure authentication and high throughput.",
-    icon: "Zap",
-  },
-  {
-    id: "5",
-    title: "Database Design & Management",
-    description:
-      "Structuring and optimizing relational (PostgreSQL, SQL) and non-relational (MongoDB) database schemas for performant queries and data integrity.",
-    icon: "Database",
-  },
-  {
-    id: "6",
-    title: "React Native Mobile Development",
-    description:
-      "Developing cross-platform mobile applications with React Native, delivering native-like experiences for iOS and Android.",
-    icon: "Smartphone",
-  },
-  {
-    id: "7",
-    title: "AI & API Integration",
-    description:
-      "Connecting web applications to AI APIs, large language models (LLMs), and automating backend processes using Python.",
-    icon: "Globe",
-  },
-  {
-    id: "8",
-    title: "Chrome Extension Development",
-    description:
-      "Building lightweight, powerful Chrome extensions with JavaScript and Chrome APIs to enhance browser functionality and user productivity.",
-    icon: "Globe",
-  },
-];
-
-export const projects = [
-  {
-    id: "1",
-    title: "XANA",
-    description:
-      "XANA is a decentralized metaverse platform combining social networking, gaming, and digital commerce. It allows users to create and customize avatars, build virtual environments, trade NFTs through the XANALIA marketplace, and interact via real-time chat. The platform operates on a native token (XETA), supports cross-chain compatibility, and incorporates AI-driven avatar interactions.",
-    techStack: [
-      "React.js",
-      "Redux",
-      "Socket.io",
-      "API Integration",
-      "Cross-Device Compatibility",
-    ],
-    liveUrl: "https://xana.net/app",
-    featured: true,
-    impact: [
-      "Delivered responsive React interfaces for a Web3 ecosystem spanning metaverse, NFT marketplace, social, and gaming workflows.",
-      "Integrated real-time and API-driven product surfaces across avatar, marketplace, feed, and builder experiences.",
-      "Supported a product ecosystem whose public marketplace positioning references more than $20M in proven transactions.",
-    ],
-    caseStudy: {
-      challenge:
-        "XANA needed dense Web3 product flows to feel approachable across devices while supporting marketplace, social, gaming, and avatar interactions.",
-      approach:
-        "Focused on modular React views, reusable UI patterns, Redux state management, Socket.io integration, and API-driven screens that could scale across multiple product areas.",
-      outcome:
-        "Helped deliver a more cohesive cross-device experience for a broad metaverse ecosystem with cleaner navigation between high-complexity user journeys.",
-    },
-    imageUrl: null as string | null,
-  },
-  {
-    id: "2",
-    title: "TruckUp",
-    description:
-      "TruckUp is a service platform connecting fleet operators, truck drivers, and trailer owners with verified mobile mechanics for medium- and heavy-duty vehicles. The platform offers roadside assistance, mobile repairs, and fleet maintenance services available 24/7. Users can locate nearby mechanics, track ETAs, receive real-time updates, and access reliable repair support anytime, anywhere.",
-    techStack: [
-      "Next.js",
-      "JavaScript",
-      "TypeScript",
-      "Redux",
-      "API Integration",
-    ],
-    liveUrl: "https://truckup.com",
-    featured: true,
-    impact: [
-      "Built product flows around 24/7 roadside repair, mobile mechanic discovery, fleet maintenance, and service coordination.",
-      "Supported a marketplace experience for medium- and heavy-duty truck repair workflows across customer and mechanic touchpoints.",
-      "Aligned frontend delivery with a public product footprint highlighting 37k trucks serviced and 100+ mobile mechanics.",
-    ],
-    caseStudy: {
-      challenge:
-        "TruckUp needed a service experience that made urgent roadside repair feel fast, reliable, and easy to act on for fleets and drivers.",
-      approach:
-        "Developed responsive Next.js/TypeScript interfaces, connected booking and account flows to APIs, and refined UI states for service discovery and conversion.",
-      outcome:
-        "Improved the clarity of the service journey so users could move from discovery to action with fewer points of friction across desktop and mobile.",
-    },
-    imageUrl: null as string | null,
-  },
-  {
-    id: "3",
-    title: "PureLab",
-    description:
-      "PureLab is a leading diagnostic laboratory network providing high-quality clinical testing and healthcare services. The platform offers comprehensive test listings, location-based lab discovery, online report access, and appointment scheduling. Built with a focus on trust, accuracy, and user accessibility, it serves millions of patients with dependable healthcare diagnostics across multiple regions.",
-    techStack: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Framer Motion",
-      "API Integration",
-      "Responsive Design",
-    ],
-    liveUrl: "https://purelab.com",
-    featured: true,
-    impact: [
-      "Delivered responsive healthcare interfaces for test discovery, location exploration, report access, and appointment-oriented journeys.",
-      "Built UI patterns for a public diagnostic platform presenting specialised test menus, service centers, quality content, and client portal access.",
-      "Focused on performance, trust, accessibility, and clear information architecture for patient-facing healthcare workflows.",
-    ],
-    imageUrl: null as string | null,
-  },
-  {
-    id: "4",
-    title: "Amaizing",
-    description:
-      "Amaizing is an AI-driven growth platform designed for e-commerce brands and agencies. It transforms complex marketplace data into actionable growth forecasts, identifies performance gaps, and runs uplift-focused optimization tests. The platform charges only on verified revenue gains and continuously improves through AI learning to maximize business scalability and efficiency.",
-    techStack: [
-      "JavaScript",
-      "React.js",
-      "TypeScript",
-      "Tailwind UI",
-      "API Integration",
-    ],
-    liveUrl: "https://www.amaizing.io",
-    featured: true,
-    impact: [
-      "Developed product screens for AI-supported e-commerce intelligence, competitive analysis, and market reporting workflows.",
-      "Supported an experience centered on weekly intelligence, market mapping, deep dives, and clear action recommendations.",
-      "Helped present complex marketplace data in a decision-focused interface instead of a dense analytics dashboard.",
-    ],
-    caseStudy: {
-      challenge:
-        "Amaizing needed to turn complex competitive marketplace data into a product experience that operators could understand quickly.",
-      approach:
-        "Built responsive React/TypeScript views with polished interaction states, structured report sections, and API-ready UI patterns for AI-assisted insights.",
-      outcome:
-        "Created a clearer product narrative around actionable intelligence, helping users understand market moves without digging through raw dashboards.",
-    },
-    imageUrl: null as string | null,
-  },
-  {
-    id: "5",
-    title: "Kokobeo",
-    description:
-      "Kokobeo is a next-generation hybrid service marketplace that connects users with local, international, and emergency service professionals. The platform enables both online and on-site service bookings, supporting urgent requests, scheduled appointments, and specialized services. It delivers a seamless user experience through intuitive workflows, real-time matching, professional profiles, and efficient service coordination.",
-    techStack: [
-      "React.js",
-      "JavaScript",
-      "TypeScript",
-      "Material-UI",
-      "API Integration",
-    ],
-    liveUrl: null as string | null,
-    featured: false,
-    impact: [
-      "Designed marketplace flows for urgent, scheduled, online, and on-site service requests.",
-      "Built reusable React/TypeScript UI patterns for service discovery, professional profiles, and booking coordination.",
-      "Focused on reducing request complexity across customer and provider workflows.",
-    ],
-    imageUrl: null as string | null,
-  },
-  {
-    id: "6",
-    title: "Vineyard Vines",
-    description:
-      "Vineyard Vines is a state-of-the-art e-commerce platform offering premium lifestyle and apparel products for men, women, and children. The platform supports a wide range of clothing categories, seamless product discovery, secure payments, and efficient order fulfillment. It is designed to deliver a fast, visually engaging, and user-friendly shopping experience across all devices.",
-    techStack: [
-      "React.js",
-      "Material-UI",
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "PayPal Integration",
-    ],
-    liveUrl: "https://www.vineyardvines.com/",
-    featured: false,
-    impact: [
-      "Built e-commerce UI patterns for product discovery, promotions, cart flows, and responsive shopping journeys.",
-      "Integrated frontend experiences with Node.js, Express.js, MongoDB, and PayPal-backed checkout flows.",
-      "Focused on smooth cross-device browsing for a large lifestyle and apparel catalog.",
-    ],
-    imageUrl: null as string | null,
-  },
-  {
-    id: "7",
-    title: "SpeedMeter",
-    description:
-      "SpeedMeter is a lightweight Chrome extension that enables users to instantly measure their internet connection speed directly from the browser. The extension features real-time download speed testing, an intuitive circular progress UI, and accurate performance metrics displayed in Mbps/Kbps. Built for simplicity and efficiency, it provides quick speed insights without navigating to external websites.",
-    techStack: [
-      "JavaScript",
-      "Chrome APIs",
-      "HTML5",
-      "CSS3",
-      "Web Workers",
-      "Manifest V3",
-    ],
-    liveUrl: null as string | null,
-    featured: false,
-    impact: [
-      "Built a lightweight Manifest V3 extension for quick browser-based internet speed testing.",
-      "Used Web Workers to keep measurements responsive while displaying Mbps/Kbps results in a focused popup UI.",
-      "Designed the experience for fast diagnostics without sending users to a separate speed-test website.",
-    ],
-    imageUrl: null as string | null,
-  },
-];
 
 export const contactInfo = {
   email: "itsmusman1@gmail.com",
   github: "https://github.com/itsmusman",
   linkedin: "https://www.linkedin.com/in/m-usman01/",
-  twitter: null as string | null,
   phone: "+92 344 6153337",
-  location: "Pakistan",
+  location: "Lahore, Pakistan",
 };
 
-export const skills = [
-  { name: "React.js / Next.js", level: 95 },
-  { name: "JavaScript / TypeScript", level: 95 },
-  { name: "AI-Augmented Workflows", level: 95 },
-  { name: "AI & API Integrations", level: 90 },
-  { name: "Node.js / Express.js", level: 88 },
-  { name: "Databases (SQL / MongoDB)", level: 88 },
-  { name: "Python", level: 85 },
-  { name: "Tailwind CSS / UI Design", level: 90 },
-  { name: "Git & CI/CD", level: 88 },
+// Curated Project List in exact priority order (01 to 09)
+export const projects: Project[] = [
+  {
+    id: "unsurfaced-ai",
+    orderNumber: "01",
+    title: "Unsurfaced AI",
+    category: "AI / Trend Discovery",
+    description:
+      "Real-time Reddit trend discovery platform covering trending topics, industry insights and sentiment analysis.",
+    contribution:
+      "Optimized backend APIs, debugging and asynchronous data ingestion.",
+    techStack: ["Python", "FastAPI", "Next.js", "PostgreSQL", "Redis"],
+    liveUrl: "https://unsurfaced-ai.com/brand-explorer",
+    featured: true,
+    role: "Software Engineer",
+    impact: [
+      "Optimized and debugged Unsurfaced AI, a real-time Reddit trend discovery platform using Python, FastAPI, Next.js, PostgreSQL and Redis; reduced API latency by 40% and page-load time by 35%.",
+      "Moved data ingestion to an asynchronous pipeline and supported production readiness through testing, debugging and performance optimization.",
+    ],
+    caseStudy: {
+      challenge:
+        "High ingestion volume of Reddit data caused endpoint bottlenecking and inconsistent load times across brand explorer dashboards.",
+      approach:
+        "Refactored data collection into an asynchronous ingestion pipeline with Redis caching and tuned PostgreSQL queries backing FastAPI services.",
+      outcome:
+        "Cut API response latency by 40% and improved dashboard load speed by 35%, ensuring reliable trend discovery under heavy data flow.",
+    },
+  },
+  {
+    id: "amaizing",
+    orderNumber: "02",
+    title: "Amaizing",
+    category: "AI / Competitive Intelligence",
+    description:
+      "AI-driven market intelligence platform for e-commerce brands, combining customer behavior, competitor movements, search trends and actionable market reports.",
+    contribution:
+      "Frontend development and product feature work.",
+    techStack: ["React", "TypeScript", "JavaScript", "AI"],
+    liveUrl: "https://amaizing.io/",
+    featured: true,
+    role: "Associate Software Engineer",
+    impact: [
+      "Built React.js and Next.js dashboards and contributed to Amaizing, an AI-driven competitive-intelligence platform.",
+      "Delivered features in Agile sprints across USA–Pakistan time zones and used AI-assisted workflows to reduce QA effort by 35%.",
+    ],
+    caseStudy: {
+      challenge:
+        "Amazon e-commerce operators needed quick, decision-ready intelligence without sifting through unstructured competitor data.",
+      approach:
+        "Engineered modular React views and clean data-visualization components that translate raw signals into structured, actionable market reports.",
+      outcome:
+        "Delivered a polished user journey enabling brand managers to track competitor moves and forecast market opportunities rapidly.",
+    },
+  },
+  {
+    id: "blocktrust",
+    orderNumber: "03",
+    title: "BlockTrust",
+    category: "Fintech / AI",
+    description:
+      "AI-managed crypto IRA platform focused on portfolio management, market monitoring, automated rebalancing, reporting and investor education.",
+    contribution:
+      "Contributed to production readiness, UI state consistency and performance optimization.",
+    techStack: ["AI", "Fintech", "Web Applications"],
+    liveUrl: "https://blocktrust.com/",
+    featured: true,
+    role: "Full Stack Engineer",
+    impact: [
+      "Contributed to production readiness and performance optimization of an AI-managed crypto IRA platform.",
+      "Structured secure frontend workflows connecting portfolio monitoring, rebalancing triggers, and investor educational modules.",
+    ],
+    caseStudy: {
+      challenge:
+        "Crypto retirement accounts require institutional-grade reliability, clear audit trails, and strict UI responsiveness under fluctuating market conditions.",
+      approach:
+        "Optimized frontend bundle size, tuned state caching for market signal feeds, and systematically audited user flows for release readiness.",
+      outcome:
+        "Achieved production readiness with reliable UI state transitions and dependable portfolio reporting across desktop and mobile devices.",
+    },
+  },
+  {
+    id: "xana",
+    orderNumber: "04",
+    title: "XANA",
+    category: "Web3 / Metaverse",
+    description:
+      "Decentralized metaverse platform combining social networking, gaming, digital commerce, NFT workflows, real-time communication and AI-driven interactions.",
+    techStack: ["React.js", "Redux", "Web3", "Socket.io", "OpenAI"],
+    liveUrl: "https://xana.net/app",
+    featured: false,
+    role: "React.js Developer",
+    impact: [
+      "Developed interactive user feeds, comment threads, post creation, and hashtag/mention parsing via custom regex logic.",
+      "Integrated Socket.io for low-latency live communication and connected AI avatar interaction endpoints.",
+    ],
+  },
+  {
+    id: "writeout",
+    orderNumber: "05",
+    title: "WriteOut",
+    category: "Real-time Applications / AI",
+    description:
+      "Real-time writing and gaming platform featuring Word Duel, daily puzzles, collaborative stories, leaderboards and AI-assisted content generation.",
+    techStack: ["React", "Node.js", "Real-time Applications", "OpenAI"],
+    liveUrl: "https://www.writeout.co/",
+    featured: false,
+    role: "Associate Software Engineer",
+    impact: [
+      "Built interactive game views and collaborative writing interfaces using React, Redux Toolkit, and Tailwind CSS.",
+      "Integrated OpenAI APIs for automated puzzle generation and collaborative prompt assistance.",
+    ],
+  },
+  {
+    id: "truckup",
+    orderNumber: "06",
+    title: "TruckUp",
+    category: "Logistics / Marketplace",
+    description:
+      "Roadside assistance platform connecting truck and trailer operators with mobile mechanics, including mechanic discovery, live location and service workflows.",
+    techStack: ["React", "Next.js", "Web Applications"],
+    liveUrl: "https://truckup.com/",
+    featured: false,
+    role: "Associate Software Engineer",
+    impact: [
+      "Built React.js and Next.js dashboards for TruckUp and delivered features in Agile sprints across USA–Pakistan time zones.",
+      "Developed real-time mechanic status visualization and location-based request coordination.",
+    ],
+  },
+  {
+    id: "purelab",
+    orderNumber: "07",
+    title: "PureLab",
+    category: "Healthcare / Diagnostics",
+    description:
+      "Digital healthcare experience supporting diagnostic services, test discovery, laboratory information and patient-oriented journeys.",
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS"],
+    liveUrl: "https://purelab.com/",
+    featured: false,
+    role: "Associate Software Engineer",
+    impact: [
+      "Built React.js and Next.js admin dashboards for PureLab clinical diagnostics platform.",
+      "Engineered patient-centric diagnostic test catalogs, report access journeys, and laboratory discovery maps.",
+    ],
+  },
+  {
+    id: "colivease",
+    orderNumber: "08",
+    title: "Colivease",
+    category: "PropTech / Mobile",
+    description:
+      "Cross-platform co-living product supporting property discovery, roommate and renter connections, messaging, dashboards and virtual meetings.",
+    techStack: ["React Native", "Mobile", "Real-time Messaging"],
+    liveUrl: "https://colivease.ca/",
+    featured: false,
+    role: "Associate Software Engineer",
+    impact: [
+      "Developed React Native features for Colivease and improved team delivery through structured Git branching, reducing merge conflicts by 40%.",
+      "Built mobile user dashboards, virtual meeting integrations, and real-time roommate messaging.",
+    ],
+  },
+  {
+    id: "speedmeter",
+    orderNumber: "09",
+    title: "SpeedMeter",
+    category: "Browser Extension",
+    description:
+      "Lightweight Chrome extension for one-click internet speed measurement and instant results.",
+    techStack: ["JavaScript", "Chrome Extension APIs"],
+    liveUrl: "https://chromewebstore.google.com/detail/dnmefkacijdmefckljigmcdipilgchje",
+    featured: false,
+    role: "Extension Developer",
+    impact: [
+      "Developed a Manifest V3 compliant Chrome extension for instantaneous internet download and latency benchmarking.",
+      "Implemented Web Workers to keep browser thread responsive during network testing cycles.",
+    ],
+  },
 ];
 
-export const timeline = [
+// Clean Technical Skill Categories (Section 22)
+export const skillCategories: SkillCategory[] = [
   {
-    year: "Apr 2025 - Present",
-    title: "Senior Software Engineer - Freelance",
-    company: "Self-Employed — Pakistan",
-    description:
-      "Delivering full-stack development and Python scripting services for global clients, leveraging advanced AI coding agents to accelerate delivery times. Architected custom endpoints and integrated AI APIs with React frontends.",
+    category: "Programming",
+    description: "Core languages used across daily application logic and scripts",
+    skills: ["JavaScript", "TypeScript", "Python", "HTML", "CSS"],
   },
   {
-    year: "Jan 2026 - Apr 2026",
-    title: "Senior Software Engineer",
-    company: "Grayphite",
-    description:
-      "Contributed as a Senior Software Engineer alongside freelance work, building and refining full-stack product features, integrating APIs, and improving application performance across modern React and backend workflows.",
+    category: "Frontend",
+    description: "Component architectures, state management, and modern UI engineering",
+    skills: ["React", "Next.js", "Redux Toolkit", "Tailwind CSS"],
   },
   {
-    year: "Aug 2024 - Apr 2025",
+    category: "Backend",
+    description: "Server runtimes, microservices, and protocol-level integrations",
+    skills: ["Node.js", "FastAPI", "REST APIs", "WebSockets"],
+  },
+  {
+    category: "Mobile",
+    description: "Cross-platform mobile application development",
+    skills: ["React Native"],
+  },
+  {
+    category: "Data",
+    description: "Relational, document, and in-memory data persistence",
+    skills: ["PostgreSQL", "MongoDB", "Redis"],
+  },
+  {
+    category: "AI / ML",
+    description: "Applied AI integrations, agentic workflows, and machine learning foundations",
+    skills: ["OpenAI API", "AI-assisted Development", "ML Fundamentals"],
+  },
+  {
+    category: "Cloud / DevOps",
+    description: "Deployment pipelines, storage infrastructure, and hosting platforms",
+    skills: ["AWS", "Vercel", "Netlify", "Render", "GitHub Actions"],
+  },
+  {
+    category: "Tools",
+    description: "Engineering methodologies, automated testing, and team delivery",
+    skills: ["Git", "GitHub", "Jest", "Agile/Scrum", "Code Review"],
+  },
+];
+
+// Flat skills array for quick reference
+export const skillsList = skillCategories.flatMap((c) => c.skills);
+
+// Verified Professional Experience Timeline (3 official employment positions, Section 12)
+export const timeline: ExperienceItem[] = [
+  {
+    period: "Jan 2026 – Apr 2026",
     title: "Software Engineer",
-    company: "PieCyfer — Lahore, Pakistan",
-    description:
-      "Maintained and enhanced scalable full-stack web applications using React.js, Next.js, and Node.js. Used AI-assisted tools to streamline scripting tasks, integrated third-party REST APIs, and optimized query operations.",
+    company: "Grayphite",
+    location: "Lahore, Pakistan",
+    type: "employment",
+    summary:
+      "Core engineer on Unsurfaced AI, optimizing data ingestion pipelines and server response metrics.",
+    responsibilities: [
+      "Optimized and debugged Unsurfaced AI, a real-time Reddit trend discovery platform using Python, FastAPI, Next.js, PostgreSQL and Redis; reduced API latency by 40% and page-load time by 35%.",
+      "Moved data ingestion to an asynchronous pipeline and supported production readiness through testing, debugging and performance optimization.",
+    ],
   },
   {
-    year: "Dec 2022 - Aug 2024",
+    period: "Aug 2024 – Apr 2025",
     title: "Associate Software Engineer",
-    company: "DevBlends — Lahore, Pakistan",
-    description:
-      "Developed customized web and mobile applications. Built backend helper services in Python and Node.js, and integrated them with frontend React and React Native views. Spearheaded transition to AI-augmented development.",
+    company: "PieCyfer",
+    location: "Lahore, Pakistan",
+    type: "employment",
+    summary:
+      "Full-stack development across logistics, diagnostic health, and AI competitive intelligence products.",
+    responsibilities: [
+      "Built React.js and Next.js dashboards for TruckUp and PureLab and contributed to Amaizing, an AI-driven competitive-intelligence platform.",
+      "Delivered features in Agile sprints across USA–Pakistan time zones and used AI-assisted workflows to reduce QA effort by 35%.",
+    ],
   },
   {
-    year: "Mar 2021 - Nov 2022",
-    title: "Junior Software Engineer",
-    company: "Ebyrx — Lahore, Pakistan",
-    description:
-      "Built web interfaces using HTML, CSS, JavaScript, and React. Collaborated with backend engineers to integrate APIs. Developed reusable UI components and optimized layouts for responsiveness.",
+    period: "Dec 2022 – Mar 2024",
+    title: "Associate Software Engineer",
+    company: "DevBlends",
+    location: "Lahore, Pakistan",
+    type: "employment",
+    summary:
+      "Frontend and mobile application delivery across gaming, collaborative writing, and co-living platforms.",
+    responsibilities: [
+      "Built web applications and dashboards with React, Node.js, Redux Toolkit and Tailwind CSS, including work on WriteOut.",
+      "Developed React Native features for Colivease and improved team delivery through structured Git branching, reducing merge conflicts by 40%.",
+    ],
+  },
+];
+
+// Continuing Development (Separate from Employment, Section 13)
+export const continuingDevelopment = {
+  title: "AI/ML Engineering",
+  field: "Artificial Intelligence & Machine Learning",
+  institution: "NIAI — NETSOL Institute of Artificial Intelligence",
+  program: "NAVTTC",
+  duration: "3-month program",
+  status: "Currently in progress",
+  description:
+    "Focused on strengthening Python, machine learning fundamentals, data handling, feature engineering, model development and practical AI application development.",
+};
+
+// Education (Section 15)
+export const educationAndTraining = [
+  {
+    title: "Bachelor of Science in Computer Science",
+    institution: "University of Lahore",
+    period: "2017 – 2021",
+    description: "Foundations in data structures, algorithms, databases, and software engineering principles.",
+  },
+  {
+    title: "AI/ML Engineering Program",
+    institution: "NIAI — NETSOL Institute of Artificial Intelligence (NAVTTC)",
+    period: "3 months — In Progress",
+    description: "Intensive training in Python, ML algorithms, feature engineering, and model deployment.",
+  },
+  {
+    title: "MERN Stack Development",
+    institution: "NexusBerry",
+    period: "Jan 2021 – Mar 2021",
+    description: "Production web development across MongoDB, Express, React, and Node.js.",
   },
 ];
