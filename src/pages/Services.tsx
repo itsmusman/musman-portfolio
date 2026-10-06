@@ -1,35 +1,34 @@
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { ArrowUpRight, Code2, Database, Layers, Server, Smartphone, Terminal, Cpu } from "lucide-react";
+import { Code2, Database, Layers, Server, Smartphone, Terminal, Cpu } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
-import { skillCategories, profile } from "@/data/siteData";
+import { skillCategories } from "@/data/siteData";
 
 export default function Services() {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "Programming":
-        return <Terminal size={16} className="text-teal-400" />;
+        return <Terminal size={16} className="text-[hsl(var(--primary))]" />;
       case "Frontend":
-        return <Code2 size={16} className="text-teal-400" />;
+        return <Code2 size={16} className="text-[hsl(var(--primary))]" />;
       case "Mobile":
-        return <Smartphone size={16} className="text-teal-400" />;
+        return <Smartphone size={16} className="text-[hsl(var(--primary))]" />;
       case "Backend & APIs":
-        return <Server size={16} className="text-teal-400" />;
+        return <Server size={16} className="text-[hsl(var(--primary))]" />;
       case "Data":
-        return <Database size={16} className="text-teal-400" />;
+        return <Database size={16} className="text-[hsl(var(--primary))]" />;
       case "AI / ML":
-        return <Cpu size={16} className="text-teal-400" />;
+        return <Cpu size={16} className="text-[hsl(var(--primary))]" />;
       case "Cloud & DevOps":
-        return <Layers size={16} className="text-teal-400" />;
+        return <Layers size={16} className="text-[hsl(var(--primary))]" />;
       default:
-        return <Code2 size={16} className="text-teal-400" />;
+        return <Code2 size={16} className="text-[hsl(var(--primary))]" />;
     }
   };
 
   return (
     <PublicLayout>
       <Helmet>
-        <title>Capabilities & Architecture | Muhammad Usman — Full Stack Software Engineer</title>
+        <title>Capabilities & Architecture | Muhammad Usman — Full Stack Software Engineer · AI/ML Engineering</title>
         <meta
           name="description"
           content="Engineering capabilities, technical stack, and software development proficiencies of Muhammad Usman — Full Stack Software Engineer transitioning into AI/ML."
@@ -38,17 +37,17 @@ export default function Services() {
       </Helmet>
 
       {/* Header */}
-      <section className="pt-28 pb-12 md:pt-36 md:pb-16 border-b border-white/[0.08]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-4">
-          <p className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
-            Engineering Capabilities
-          </p>
+      <section className="pt-28 pb-12 md:pt-36 md:pb-16 border-b border-foreground/[0.06]">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 space-y-4">
+          <span className="font-mono text-[11px] tracking-[0.2em] text-muted-foreground uppercase block">
+            Capabilities
+          </span>
 
           <div className="space-y-2">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
               Technical Proficiencies & Systems Architecture
             </h1>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl text-pretty font-normal">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl text-pretty font-light">
               Full-stack software engineering backed by 4+ years of production experience across web applications, REST & WebSocket APIs, and expanding AI/ML pipelines.
             </p>
           </div>
@@ -56,9 +55,9 @@ export default function Services() {
       </section>
 
       {/* Editorial Capabilities Rows */}
-      <section className="py-16 md:py-24 border-b border-white/[0.08]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="border-t border-b border-white/[0.08] divide-y divide-white/[0.08]">
+      <section className="py-16 md:py-24 border-b border-foreground/[0.06]">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+          <div className="border-t border-b border-foreground/[0.06] divide-y divide-foreground/[0.06]">
             {skillCategories.map((group, idx) => (
               <div
                 key={group.category}
@@ -73,14 +72,14 @@ export default function Services() {
                     <span className="inline-flex items-center justify-center">
                       {getCategoryIcon(group.category)}
                     </span>
-                    <h2 className="text-base font-bold text-foreground tracking-tight">
+                    <h2 className="font-display text-base font-bold text-foreground tracking-tight">
                       {group.category}
                     </h2>
                   </div>
                 </div>
 
                 {/* Column 2: Scope & Description */}
-                <div className="md:col-span-4 text-sm text-muted-foreground leading-relaxed text-pretty">
+                <div className="md:col-span-4 text-sm text-muted-foreground leading-relaxed text-pretty font-light">
                   {group.description}
                 </div>
 
@@ -90,7 +89,7 @@ export default function Services() {
                     {group.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="font-mono text-xs px-2.5 py-1 rounded bg-white/[0.04] text-foreground/90 border border-white/[0.08]"
+                        className="font-mono text-xs px-2.5 py-1 rounded-sm bg-foreground/[0.04] text-foreground/90 border border-foreground/[0.08]"
                       >
                         {skill}
                       </span>
@@ -99,33 +98,6 @@ export default function Services() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Editorial CTA */}
-          <div className="mt-16 sm:mt-20 pt-10 border-t border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-            <div className="space-y-1">
-              <h3 className="text-lg font-bold text-foreground tracking-tight">
-                Looking to discuss engineering roles or architecture?
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Available for full-stack and applied AI/ML engineering roles.
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <a
-                href={`mailto:${profile.email}`}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-foreground bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 hover:border-white/25 rounded-md transition-all"
-              >
-                <span>Email Usman</span>
-                <ArrowUpRight size={13} className="text-teal-400" />
-              </a>
-              <Link
-                to="/projects"
-                className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                View Projects
-              </Link>
-            </div>
           </div>
         </div>
       </section>

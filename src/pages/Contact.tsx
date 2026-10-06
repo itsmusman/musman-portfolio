@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import emailjs from "@emailjs/browser";
-import { Check, Github, Linkedin, Loader2, Mail, Send, Copy, ArrowUpRight } from "lucide-react";
+import { Check, Loader2, Send, Copy, ArrowUpRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { Button } from "@/components/ui/button";
@@ -99,7 +99,7 @@ export default function Contact() {
   return (
     <PublicLayout>
       <Helmet>
-        <title>Contact | Muhammad Usman — Full Stack Software Engineer</title>
+        <title>Contact | Muhammad Usman — Full Stack Software Engineer · AI/ML Engineering</title>
         <meta
           name="description"
           content="Get in touch with Muhammad Usman: Full Stack Software Engineer for engineering roles, technical collaboration, and full-stack development."
@@ -108,17 +108,17 @@ export default function Contact() {
       </Helmet>
 
       {/* Header */}
-      <section className="pt-28 pb-12 md:pt-36 md:pb-16 border-b border-white/[0.08]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-4">
-          <p className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
+      <section className="pt-28 pb-12 md:pt-36 md:pb-16 border-b border-foreground/[0.06]">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 space-y-4">
+          <span className="font-mono text-[11px] tracking-[0.2em] text-muted-foreground uppercase block">
             Communication
-          </p>
+          </span>
 
           <div className="space-y-2">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
               Have an engineering opportunity or project in mind?
             </h1>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl text-pretty font-normal">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl text-pretty font-light">
               I am actively evaluating software engineering roles and AI/ML engineering transition opportunities. Reach out directly or send a message below.
             </p>
           </div>
@@ -126,36 +126,36 @@ export default function Contact() {
       </section>
 
       {/* Content */}
-      <section className="py-16 md:py-24 border-b border-white/[0.08]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <section className="py-16 md:py-24 border-b border-foreground/[0.06]">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             {/* Direct Channels (5 cols) */}
             <div className="lg:col-span-5 space-y-8">
               <div className="space-y-2">
-                <h2 className="text-xl font-bold text-foreground tracking-tight">
+                <h2 className="font-display text-xl font-bold text-foreground tracking-tight">
                   Direct Channels
                 </h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed font-light">
                   Prefer direct communication? Connect via email, LinkedIn, or view repositories on GitHub.
                 </p>
               </div>
 
-              <div className="border-t border-b border-white/[0.08] divide-y divide-white/[0.08]">
+              <div className="border-t border-b border-foreground/[0.06] divide-y divide-foreground/[0.06]">
                 {/* Email */}
                 <div className="py-4 space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-mono text-muted-foreground uppercase">Email</span>
                     <button
                       onClick={handleCopyEmail}
-                      className="text-xs font-mono text-muted-foreground hover:text-teal-400 inline-flex items-center gap-1 transition-colors"
+                      className="text-xs font-mono text-muted-foreground hover:text-[hsl(var(--primary))] inline-flex items-center gap-1 transition-colors"
                     >
-                      {copiedEmail ? <Check size={12} className="text-teal-400" /> : <Copy size={12} />}
+                      {copiedEmail ? <Check size={12} className="text-[hsl(var(--primary))]" /> : <Copy size={12} />}
                       {copiedEmail ? "Copied" : "Copy"}
                     </button>
                   </div>
                   <a
                     href={`mailto:${contactInfo.email}`}
-                    className="text-sm sm:text-base font-semibold text-foreground hover:text-teal-400 transition-colors block"
+                    className="text-sm sm:text-base font-semibold text-foreground hover:text-[hsl(var(--primary))] transition-colors block font-mono"
                   >
                     {contactInfo.email}
                   </a>
@@ -165,13 +165,13 @@ export default function Contact() {
                 <div className="py-4 flex items-center justify-between group">
                   <div className="space-y-0.5">
                     <span className="text-xs font-mono text-muted-foreground uppercase">LinkedIn</span>
-                    <p className="text-sm font-semibold text-foreground">Muhammad Usman</p>
+                    <p className="text-sm font-semibold text-foreground font-display">Muhammad Usman</p>
                   </div>
                   <a
                     href={contactInfo.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground group-hover:text-teal-400 transition-colors"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground group-hover:text-[hsl(var(--primary))] transition-colors font-mono"
                   >
                     <span>Connect</span>
                     <ArrowUpRight size={13} />
@@ -182,13 +182,13 @@ export default function Contact() {
                 <div className="py-4 flex items-center justify-between group">
                   <div className="space-y-0.5">
                     <span className="text-xs font-mono text-muted-foreground uppercase">GitHub</span>
-                    <p className="text-sm font-semibold text-foreground">@itsmusman</p>
+                    <p className="text-sm font-semibold text-foreground font-display">@itsmusman</p>
                   </div>
                   <a
                     href={contactInfo.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground group-hover:text-teal-400 transition-colors"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground group-hover:text-[hsl(var(--primary))] transition-colors font-mono"
                   >
                     <span>View Profile</span>
                     <ArrowUpRight size={13} />
@@ -196,19 +196,19 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="pt-2 text-xs font-mono text-muted-foreground">
+              <div className="pt-2 text-xs font-mono text-muted-foreground/70">
                 📍 {profile.location} · Available for Remote & Hybrid Positions
               </div>
             </div>
 
             {/* Message Form (7 cols) */}
             <div className="lg:col-span-7">
-              <div className="rounded-lg border border-white/[0.08] bg-secondary/20 p-6 sm:p-8 space-y-6">
+              <div className="border border-foreground/[0.08] bg-secondary/20 p-6 sm:p-8 space-y-6">
                 <div>
-                  <h2 className="text-xl font-bold text-foreground tracking-tight">
+                  <h2 className="font-display text-xl font-bold text-foreground tracking-tight">
                     Send a Message
                   </h2>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground mt-1 font-light">
                     Fill out the form below and I'll respond directly via email within 24 hours.
                   </p>
                 </div>
@@ -225,7 +225,7 @@ export default function Contact() {
                             <Input
                               placeholder="e.g. Alex Henderson"
                               {...field}
-                              className="bg-background/80 border-white/10 focus:border-teal-400/50"
+                              className="bg-background/80 border-foreground/10 focus:border-[hsl(var(--primary))]/50"
                             />
                           </FormControl>
                           <FormMessage />
@@ -244,7 +244,7 @@ export default function Contact() {
                               type="email"
                               placeholder="e.g. alex@company.com"
                               {...field}
-                              className="bg-background/80 border-white/10 focus:border-teal-400/50"
+                              className="bg-background/80 border-foreground/10 focus:border-[hsl(var(--primary))]/50"
                             />
                           </FormControl>
                           <FormMessage />
@@ -263,7 +263,7 @@ export default function Contact() {
                               placeholder="Tell me about your team, role requirements, or project details..."
                               rows={5}
                               {...field}
-                              className="bg-background/80 border-white/10 focus:border-teal-400/50 resize-none"
+                              className="bg-background/80 border-foreground/10 focus:border-[hsl(var(--primary))]/50 resize-none"
                             />
                           </FormControl>
                           <FormMessage />
@@ -274,16 +274,16 @@ export default function Contact() {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-white/[0.08] hover:bg-white/[0.14] text-foreground border border-white/10 hover:border-white/25 font-semibold h-11 transition-all"
+                      className="w-full bg-foreground/[0.08] hover:bg-foreground/[0.14] text-foreground border border-foreground/10 hover:border-foreground/25 font-semibold h-11 transition-all rounded-sm"
                     >
                       {isSubmitting ? (
                         <>
-                          <Loader2 size={16} className="mr-2 animate-spin text-teal-400" />
+                          <Loader2 size={16} className="mr-2 animate-spin text-[hsl(var(--primary))]" />
                           Sending...
                         </>
                       ) : (
                         <>
-                          <Send size={14} className="mr-2 text-teal-400" />
+                          <Send size={14} className="mr-2 text-[hsl(var(--primary))]" />
                           Send Message
                         </>
                       )}

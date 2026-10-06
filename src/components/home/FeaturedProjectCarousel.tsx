@@ -1,23 +1,19 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useReducedMotion, PanInfo, Variants } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import { projects, Project } from "@/data/siteData";
+import { motion, AnimatePresence, useReducedMotion, PanInfo } from "framer-motion";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Activity, TrendingUp, ShieldCheck } from "lucide-react";
+import { projects } from "@/data/siteData";
 import { getProjectMainImage } from "@/data/projectImages";
 
 export default function FeaturedProjectCarousel() {
   const shouldReduceMotion = useReducedMotion();
-  const featured = projects.filter((p) => p.featured);
+  const featured = projects.filter((p) => p.featured); // 01 Unsurfaced AI, 02 Amaizing, 03 BlockTrust
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  // Pointer follow state for image hover
-  const stageRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHoveringImage, setIsHoveringImage] = useState(false);
-
-  const AUTOPLAY_DURATION = 6000; // 6 seconds per slide
+  const AUTOPLAY_DURATION = 6000;
   const currentProject = featured[currentIndex];
   const mainImage = getProjectMainImage(currentProject.id);
 
@@ -33,7 +29,7 @@ export default function FeaturedProjectCarousel() {
     setProgress(0);
   }, [featured.length]);
 
-  // Autoplay timer with progress bar
+  // Autoplay loop with smooth 50ms ticks
   useEffect(() => {
     if (shouldReduceMotion || isPaused) return;
 
@@ -62,7 +58,7 @@ export default function FeaturedProjectCarousel() {
     }
   };
 
-  // Drag handling
+  // Drag/Swipe handling
   const handleDragEnd = (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (info.offset.x < -40) {
       nextSlide();
@@ -71,385 +67,356 @@ export default function FeaturedProjectCarousel() {
     }
   };
 
-  // Pointer follow handler on visual stage
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (shouldReduceMotion || !stageRef.current) return;
-    const rect = stageRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  // Transition variants adhering strictly to prompt specs:
-  // Current: opacity 1, scale 1, x 0
-  // Exit: opacity 0, scale 1.03, x -20px (or +20px depending on direction)
-  // Enter: opacity 0, scale 1.03, x 20px (or -20px depending on direction)
   const EASE = [0.22, 1, 0.36, 1] as const;
-
-  const visualVariants: Variants = {
-    enter: (dir: number) => ({
-      opacity: 0,
-      scale: 1.03,
-      x: dir > 0 ? 20 : -20,
-    }),
-    center: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      transition: {
-        duration: shouldReduceMotion ? 0 : 0.5,
-        ease: EASE,
-      },
-    },
-    exit: (dir: number) => ({
-      opacity: 0,
-      scale: 1.03,
-      x: dir > 0 ? -20 : 20,
-      transition: {
-        duration: shouldReduceMotion ? 0 : 0.4,
-        ease: EASE,
-      },
-    }),
-  };
-
-  const textVariants: Variants = {
-    enter: (dir: number) => ({
-      opacity: 0,
-      y: dir > 0 ? 12 : -12,
-    }),
-    center: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: shouldReduceMotion ? 0 : 0.45,
-        ease: EASE,
-      },
-    },
-    exit: (dir: number) => ({
-      opacity: 0,
-      y: dir > 0 ? -12 : 12,
-      transition: {
-        duration: shouldReduceMotion ? 0 : 0.35,
-        ease: EASE,
-      },
-    }),
-  };
 
   return (
     <section
+      ref={sectionRef}
       id="projects"
       role="region"
       aria-roledescription="carousel"
-      aria-label="Featured Projects Carousel"
+      aria-label="Featured Projects Showcase"
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocus={() => setIsPaused(true)}
       onBlur={() => setIsPaused(false)}
-      className="py-16 md:py-24 border-b border-white/[0.08] outline-none scroll-mt-16"
+      className="py-20 md:py-32 border-b border-foreground/[0.06] outline-none scroll-mt-16 select-none"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Stage Header & Carousel Controls */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-8 sm:pb-12 border-b border-white/[0.08]">
-          <div className="space-y-1">
-            <span className="text-xs font-mono tracking-widest text-muted-foreground uppercase">
-              Featured Work
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+        
+        {/* Section Header + Controls Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 sm:mb-14">
+          <div>
+            <span className="font-mono text-[11px] tracking-[0.2em] text-[hsl(var(--primary))] uppercase block mb-2 font-medium">
+              02 / Selected Production Work
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              Production Systems & Highlights
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+              Featured Projects
             </h2>
           </div>
 
-          {/* Controls: Slide Indicator, Progress Bar & Next/Prev Buttons */}
-          <div className="flex items-center gap-6 text-xs font-mono">
-            {/* Slide Index */}
-            <div className="text-foreground tracking-widest">
-              <span className="text-teal-400 font-bold">{currentProject.orderNumber}</span>
-              <span className="text-muted-foreground"> / 0{featured.length}</span>
+          {/* Carousel Navigation Tabs & Buttons */}
+          <div className="flex items-center gap-6">
+            {/* Number Tabs with Live Progress */}
+            <div className="flex items-center gap-3">
+              {featured.map((proj, idx) => (
+                <button
+                  key={proj.id}
+                  onClick={() => {
+                    setDirection(idx > currentIndex ? 1 : -1);
+                    setCurrentIndex(idx);
+                    setProgress(0);
+                  }}
+                  aria-label={`Jump to ${proj.title}`}
+                  className={`group relative flex items-center gap-2 py-1 transition-all ${
+                    idx === currentIndex
+                      ? "text-foreground font-semibold"
+                      : "text-muted-foreground/60 hover:text-foreground"
+                  }`}
+                >
+                  <span className="font-mono text-xs">{proj.orderNumber}</span>
+                  <div className="w-8 sm:w-12 h-[2px] bg-foreground/[0.1] rounded-full overflow-hidden relative">
+                    {idx === currentIndex && (
+                      <div
+                        className="absolute inset-0 bg-[hsl(var(--primary))] origin-left"
+                        style={{
+                          transform: `scaleX(${progress / 100})`,
+                          transition: "transform 50ms linear",
+                        }}
+                      />
+                    )}
+                  </div>
+                </button>
+              ))}
             </div>
 
-            {/* Linear Progress Bar */}
-            <div
-              className="w-24 sm:w-32 h-[2px] bg-white/[0.1] rounded-full overflow-hidden"
-              aria-label="Autoplay progress indicator"
-            >
-              <div
-                className="h-full bg-teal-400 transition-[width] duration-75 ease-linear"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-
-            {/* Manual Controls */}
-            <div className="flex items-center gap-1.5">
+            {/* Prev / Next Buttons */}
+            <div className="flex items-center gap-1 border border-foreground/[0.08] p-1 rounded-sm">
               <button
                 onClick={prevSlide}
                 aria-label="Previous project"
-                className="p-2 text-muted-foreground hover:text-foreground hover:bg-white/[0.06] rounded-md transition-colors"
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-foreground/[0.04] transition-colors rounded-sm"
               >
-                <ArrowLeft size={16} />
+                <ArrowLeft size={15} />
               </button>
+              <div className="w-[1px] h-4 bg-foreground/[0.08]" />
               <button
                 onClick={nextSlide}
                 aria-label="Next project"
-                className="p-2 text-muted-foreground hover:text-foreground hover:bg-white/[0.06] rounded-md transition-colors"
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-foreground/[0.04] transition-colors rounded-sm"
               >
-                <ArrowRight size={16} />
+                <ArrowRight size={15} />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Large Editorial Stage */}
-        <div className="pt-10 sm:pt-14">
-          <motion.div
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.15}
-            onDragEnd={handleDragEnd}
-            className="cursor-grab active:cursor-grabbing grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start"
-          >
-            {/* Left: Project Narrative, Metadata & Links */}
-            <div className="lg:col-span-5 space-y-6">
+        {/* Carousel Scene Stage */}
+        <motion.div
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.15}
+          onDragEnd={handleDragEnd}
+          className="cursor-grab active:cursor-grabbing"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Visual Stage (Dominant 7 columns) */}
+            <div className="lg:col-span-7 order-2 lg:order-1">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentProject.id}
                   custom={direction}
-                  variants={textVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  className="space-y-4"
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 1 }
+                      : { opacity: 0, x: direction > 0 ? 30 : -30, scale: 0.98 }
+                  }
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={
+                    shouldReduceMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, x: direction > 0 ? -30 : 30, scale: 0.98 }
+                  }
+                  transition={{ duration: 0.55, ease: EASE }}
+                  className="relative aspect-[16/10] overflow-hidden border border-foreground/[0.08] bg-[#0E0E0C] shadow-2xl group"
                 >
-                  <div className="space-y-1">
-                    <span className="text-xs font-mono text-teal-400 tracking-wider uppercase">
+                  {/* Case A: Real screenshot exists (e.g. Amaizing) */}
+                  {mainImage ? (
+                    <div className="relative w-full h-full">
+                      <img
+                        src={mainImage}
+                        alt={`${currentProject.title} interface`}
+                        loading="eager"
+                        decoding="async"
+                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+                      />
+                      {/* Top label banner */}
+                      <div className="absolute top-3 left-3 bg-[#11110F]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 font-mono text-[10px] text-foreground tracking-wider uppercase">
+                        {currentProject.title} // Production Interface
+                      </div>
+                    </div>
+                  ) : currentProject.id === "unsurfaced-ai" ? (
+                    /* Case B: Unsurfaced AI - Authentic Real-time Reddit Stream Telemetry Stage */
+                    <div className="w-full h-full p-6 sm:p-8 flex flex-col justify-between bg-gradient-to-br from-[#121210] to-[#0A0A09] font-mono text-xs text-foreground/90">
+                      {/* Stage Header */}
+                      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+                        <div className="flex items-center gap-2">
+                          <Activity size={14} className="text-[hsl(var(--primary))] animate-pulse" />
+                          <span className="font-semibold tracking-wider text-[hsl(var(--primary))]">
+                            UNSURFACED_AI // REDDIT INGESTION STREAM
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                          Async Pipeline
+                        </span>
+                      </div>
+
+                      {/* Performance Metric Counters */}
+                      <div className="grid grid-cols-3 gap-3 sm:gap-4 py-4">
+                        <div className="border border-white/[0.06] bg-white/[0.02] p-3 rounded-sm space-y-1">
+                          <span className="text-[10px] text-muted-foreground uppercase">API Latency</span>
+                          <p className="text-base sm:text-lg font-bold text-foreground">120ms</p>
+                          <span className="text-[10px] text-[hsl(var(--primary))] font-semibold">−40% Optimized</span>
+                        </div>
+                        <div className="border border-white/[0.06] bg-white/[0.02] p-3 rounded-sm space-y-1">
+                          <span className="text-[10px] text-muted-foreground uppercase">Page-Load Time</span>
+                          <p className="text-base sm:text-lg font-bold text-foreground">0.8s</p>
+                          <span className="text-[10px] text-[hsl(var(--primary))] font-semibold">−35% Boost</span>
+                        </div>
+                        <div className="border border-white/[0.06] bg-white/[0.02] p-3 rounded-sm space-y-1">
+                          <span className="text-[10px] text-muted-foreground uppercase">Data Cache</span>
+                          <p className="text-base sm:text-lg font-bold text-foreground">Redis</p>
+                          <span className="text-[10px] text-muted-foreground">PostgreSQL Sync</span>
+                        </div>
+                      </div>
+
+                      {/* Live Sentiment & Trend Distribution Visual */}
+                      <div className="space-y-2 border-t border-white/[0.06] pt-3 text-[11px]">
+                        <div className="flex items-center justify-between text-muted-foreground">
+                          <span>Active Subreddit Streams</span>
+                          <span>Sentiment Score</span>
+                        </div>
+                        <div className="space-y-1.5 font-mono text-[10px]">
+                          <div className="flex items-center justify-between">
+                            <span className="text-foreground/80">r/technology (Trending Index)</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-24 h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
+                                <div className="h-full bg-[hsl(var(--primary))] w-[85%]" />
+                              </div>
+                              <span className="text-[hsl(var(--primary))] font-semibold">+0.82</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-foreground/80">r/machinelearning (Research Topics)</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-24 h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
+                                <div className="h-full bg-[hsl(var(--primary))] w-[92%]" />
+                              </div>
+                              <span className="text-[hsl(var(--primary))] font-semibold">+0.91</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Case C: BlockTrust - Authentic AI Crypto IRA Telemetry Stage */
+                    <div className="w-full h-full p-6 sm:p-8 flex flex-col justify-between bg-gradient-to-br from-[#121210] to-[#0A0A09] font-mono text-xs text-foreground/90">
+                      {/* Stage Header */}
+                      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+                        <div className="flex items-center gap-2">
+                          <ShieldCheck size={14} className="text-[hsl(var(--primary))]" />
+                          <span className="font-semibold tracking-wider text-[hsl(var(--primary))]">
+                            BLOCKTRUST // AI CRYPTO IRA ENGINE
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                          Automated Rebalancing
+                        </span>
+                      </div>
+
+                      {/* IRA Architecture Metrics */}
+                      <div className="grid grid-cols-3 gap-3 sm:gap-4 py-4">
+                        <div className="border border-white/[0.06] bg-white/[0.02] p-3 rounded-sm space-y-1">
+                          <span className="text-[10px] text-muted-foreground uppercase">Rebalancing</span>
+                          <p className="text-base sm:text-lg font-bold text-foreground">Real-time</p>
+                          <span className="text-[10px] text-[hsl(var(--primary))] font-semibold">AI Automated</span>
+                        </div>
+                        <div className="border border-white/[0.06] bg-white/[0.02] p-3 rounded-sm space-y-1">
+                          <span className="text-[10px] text-muted-foreground uppercase">Market Scan</span>
+                          <p className="text-base sm:text-lg font-bold text-foreground">24/7</p>
+                          <span className="text-[10px] text-muted-foreground">Volatility Guard</span>
+                        </div>
+                        <div className="border border-white/[0.06] bg-white/[0.02] p-3 rounded-sm space-y-1">
+                          <span className="text-[10px] text-muted-foreground uppercase">Account Type</span>
+                          <p className="text-base sm:text-lg font-bold text-foreground">Crypto IRA</p>
+                          <span className="text-[10px] text-muted-foreground">Tax-Advantaged</span>
+                        </div>
+                      </div>
+
+                      {/* Asset Allocation Breakdown */}
+                      <div className="space-y-2 border-t border-white/[0.06] pt-3 text-[11px]">
+                        <div className="flex items-center justify-between text-muted-foreground">
+                          <span>Portfolio Holdings</span>
+                          <span>Allocation Weight</span>
+                        </div>
+                        <div className="space-y-1.5 font-mono text-[10px]">
+                          <div className="flex items-center justify-between">
+                            <span className="text-foreground/80">Bitcoin (BTC) IRA Holding</span>
+                            <span className="text-[hsl(var(--primary))] font-semibold">50% Allocation</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-foreground/80">Ethereum (ETH) IRA Holding</span>
+                            <span className="text-[hsl(var(--primary))] font-semibold">30% Allocation</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-foreground/80">USD Yield Liquidity Reserve</span>
+                            <span className="text-muted-foreground font-semibold">20% Allocation</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Hover Overlay Button */}
+                  {currentProject.liveUrl && (
+                    <a
+                      href={currentProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute bottom-4 right-4 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#11110F]/90 backdrop-blur-md text-foreground font-mono text-[11px] border border-white/10 hover:border-white/30 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      <span>Visit Live Site</span>
+                      <ArrowUpRight size={12} className="text-[hsl(var(--primary))]" />
+                    </a>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Information Panel (5 columns) */}
+            <div className="lg:col-span-5 order-1 lg:order-2 space-y-5">
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={currentProject.id}
+                  custom={direction}
+                  initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -15 }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="space-y-5"
+                >
+                  {/* Order Number & Category */}
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-sm text-[hsl(var(--primary))] font-semibold">
+                      {currentProject.orderNumber}
+                    </span>
+                    <span className="w-5 h-[1px] bg-foreground/15" />
+                    <span className="font-mono text-[11px] tracking-[0.16em] text-muted-foreground uppercase font-medium">
                       {currentProject.category}
                     </span>
-                    <h3 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
-                      {currentProject.title}
-                    </h3>
                   </div>
 
-                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-pretty">
+                  {/* Project Title */}
+                  <h3 className="font-display text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
+                    {currentProject.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-[15px] text-muted-foreground leading-relaxed font-light text-pretty">
                     {currentProject.description}
                   </p>
 
-                  {/* Contribution */}
+                  {/* My Contribution */}
                   {currentProject.contribution && (
-                    <div className="pt-2">
-                      <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
-                        Contribution
-                      </p>
-                      <p className="text-sm text-foreground/90 font-medium leading-relaxed">
+                    <div className="border-l border-[hsl(var(--primary))]/40 pl-3.5 space-y-1">
+                      <span className="font-mono text-[10px] tracking-[0.15em] text-muted-foreground uppercase block font-semibold">
+                        Key Engineering Contribution
+                      </span>
+                      <p className="text-xs sm:text-sm text-foreground/90 font-medium leading-relaxed">
                         {currentProject.contribution}
                       </p>
                     </div>
                   )}
 
                   {/* Tech Stack */}
-                  <div className="pt-2">
-                    <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
-                      Technology
-                    </p>
-                    <p className="text-xs font-mono text-foreground/80 leading-relaxed">
-                      {currentProject.techStack.join(" · ")}
-                    </p>
+                  <div className="space-y-2 pt-1">
+                    <span className="font-mono text-[10px] tracking-[0.15em] text-muted-foreground uppercase block">
+                      Technologies
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {currentProject.techStack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="font-mono text-[11px] px-2.5 py-1 text-foreground/80 bg-foreground/[0.04] border border-foreground/[0.08] rounded-sm"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Action Link */}
+                  {/* Primary Link CTA */}
                   {currentProject.liveUrl && (
-                    <div className="pt-4">
+                    <div className="pt-2">
                       <a
                         href={currentProject.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground hover:text-teal-400 transition-colors"
+                        className="group inline-flex items-center gap-2 font-display text-sm font-semibold text-foreground hover:text-[hsl(var(--primary))] transition-colors"
                       >
-                        <span>View Project</span>
-                        <ArrowUpRight size={14} className="text-teal-400" />
+                        <span>Explore {currentProject.title}</span>
+                        <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[hsl(var(--primary))]" />
                       </a>
                     </div>
                   )}
                 </motion.div>
               </AnimatePresence>
             </div>
-
-            {/* Right: Large Stage Visual with Pointer-Following Floating Label */}
-            <div
-              ref={stageRef}
-              onMouseEnter={() => setIsHoveringImage(true)}
-              onMouseLeave={() => setIsHoveringImage(false)}
-              onMouseMove={handleMouseMove}
-              className="lg:col-span-7 relative"
-            >
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={currentProject.id}
-                  custom={direction}
-                  variants={visualVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  className="relative aspect-video rounded-lg overflow-hidden border border-white/10 bg-secondary/30 shadow-xl group"
-                >
-                  {mainImage ? (
-                    <img
-                      src={mainImage}
-                      alt={`${currentProject.title} production interface`}
-                      loading="eager"
-                      decoding="async"
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.015]"
-                    />
-                  ) : currentProject.id === "unsurfaced-ai" ? (
-                    <div className="w-full h-full p-5 sm:p-7 flex flex-col justify-between bg-gradient-to-br from-[#12141c] to-[#0e1017] select-none transition-transform duration-500 group-hover:scale-[1.015]">
-                      {/* Top Bar */}
-                      <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] text-xs font-mono">
-                        <div className="flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-                          <span className="text-foreground font-semibold">Reddit Stream Ingestion</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-muted-foreground text-[11px]">
-                          <span>FastAPI</span>
-                          <span>·</span>
-                          <span>Redis Cache</span>
-                        </div>
-                      </div>
-
-                      {/* Main Signal Display */}
-                      <div className="grid grid-cols-2 gap-3.5 my-auto py-2">
-                        <div className="rounded-md border border-white/[0.08] bg-black/40 p-3.5 space-y-1.5">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-mono uppercase text-muted-foreground">Monitored Subreddits</span>
-                            <span className="text-teal-400 font-mono text-[10px]">r/technology</span>
-                          </div>
-                          <p className="text-xs font-bold text-foreground truncate">Trending AI Architecture</p>
-                          <div className="flex items-center gap-2 pt-1">
-                            <span className="text-[11px] font-mono text-teal-400 font-semibold">+184% 24h</span>
-                            <span className="text-[10px] text-muted-foreground">14.2k mentions/hr</span>
-                          </div>
-                        </div>
-
-                        <div className="rounded-md border border-white/[0.08] bg-black/40 p-3.5 space-y-1.5">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-mono uppercase text-muted-foreground">Pipeline Latency</span>
-                            <span className="text-teal-400 font-mono text-[10px]">-40% Optim</span>
-                          </div>
-                          <p className="text-xs font-bold text-foreground">118ms End-to-End</p>
-                          <div className="flex items-center gap-2 pt-1">
-                            <span className="text-[11px] font-mono text-foreground/80">94.8% Cache Hit</span>
-                            <span className="text-[10px] text-muted-foreground">Async Worker</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Telemetry Footer */}
-                      <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <span className="text-teal-400 font-semibold">PostgreSQL</span>
-                          <span className="text-white/20">|</span>
-                          <span>2.4k items/min indexed</span>
-                        </div>
-                        <span className="text-[11px] text-teal-400 font-semibold">Status: Production Live</span>
-                      </div>
-                    </div>
-                  ) : currentProject.id === "blocktrust" ? (
-                    <div className="w-full h-full p-5 sm:p-7 flex flex-col justify-between bg-gradient-to-br from-[#12141c] to-[#0e1017] select-none transition-transform duration-500 group-hover:scale-[1.015]">
-                      {/* Top Bar */}
-                      <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] text-xs font-mono">
-                        <div className="flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-teal-400" />
-                          <span className="text-foreground font-semibold">Crypto IRA Allocation Engine</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-teal-400 text-[11px]">
-                          <span>Institutional Custody</span>
-                        </div>
-                      </div>
-
-                      {/* Allocation breakdown */}
-                      <div className="space-y-3 my-auto py-2">
-                        <div className="rounded-md border border-white/[0.08] bg-black/40 p-3.5 space-y-2.5">
-                          <div className="flex items-center justify-between text-xs font-mono">
-                            <span className="text-muted-foreground">Automated Target Allocation</span>
-                            <span className="text-foreground font-bold">Institutional Portfolio</span>
-                          </div>
-                          {/* Visual allocation bar */}
-                          <div className="h-2 w-full bg-white/[0.08] rounded-full overflow-hidden flex">
-                            <div className="bg-amber-400 h-full w-[45%]" title="BTC 45%" />
-                            <div className="bg-blue-400 h-full w-[35%]" title="ETH 35%" />
-                            <div className="bg-teal-400 h-full w-[20%]" title="SOL 20%" />
-                          </div>
-                          <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-                            <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> BTC 45%</span>
-                            <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-blue-400" /> ETH 35%</span>
-                            <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-teal-400" /> SOL 20%</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between px-3 py-2 rounded border border-white/[0.06] bg-black/20 text-xs font-mono">
-                          <span className="text-muted-foreground">Rebalance Rule:</span>
-                          <span className="text-teal-400">Drift &gt; 3.0% → Zero-Slip Execution</span>
-                        </div>
-                      </div>
-
-                      {/* Footer */}
-                      <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono text-muted-foreground">
-                        <span>SOC2 Compliant Workflows</span>
-                        <span className="text-foreground font-semibold">99.99% Execution Uptime</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="w-full h-full p-6 sm:p-8 flex flex-col justify-between bg-gradient-to-br from-secondary/40 to-secondary/20 transition-transform duration-500 group-hover:scale-[1.015]">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-                          <span className="uppercase tracking-wider">System Architecture</span>
-                          <span className="text-teal-400 font-bold">{currentProject.orderNumber}</span>
-                        </div>
-                        <h4 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
-                          {currentProject.title}
-                        </h4>
-                      </div>
-
-                      <div className="space-y-3 py-4">
-                        {currentProject.impact.map((bullet, i) => (
-                          <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-muted-foreground">
-                            <span className="text-teal-400 mt-1.5 h-1.5 w-1.5 rounded-full bg-teal-400 shrink-0" />
-                            <span className="leading-relaxed">{bullet}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono text-muted-foreground/80">
-                        <span>Production Verified</span>
-                        <span>{currentProject.techStack.slice(0, 3).join(" · ")}</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Floating Pointer-Follow Interaction Label */}
-                  {isHoveringImage && currentProject.liveUrl && !shouldReduceMotion && (
-                    <motion.div
-                      style={{
-                        position: "absolute",
-                        top: mousePos.y,
-                        left: mousePos.x,
-                        pointerEvents: "none",
-                      }}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                      className="-translate-x-1/2 -translate-y-1/2 z-20 px-3 py-1.5 rounded-md bg-black/80 backdrop-blur-md border border-white/20 text-white font-mono text-[11px] font-semibold tracking-wider uppercase inline-flex items-center gap-1 shadow-2xl"
-                    >
-                      <span>VIEW PROJECT</span>
-                      <ArrowUpRight size={12} className="text-teal-400" />
-                    </motion.div>
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

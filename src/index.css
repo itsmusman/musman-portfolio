@@ -3,62 +3,63 @@
 @tailwind utilities;
 
 /* ========================================================================= */
-/* Muhammad Usman Portfolio - Warm Natural Dark Editorial Design System     */
+/* Muhammad Usman Portfolio — Editorial Product Engineer Design System       */
+/* Natural · Premium · Confident · Warm                                      */
 /* ========================================================================= */
 
 @layer base {
   :root {
-    /* Warm Charcoal / Near-Black Palette */
-    --background: 220 14% 6%;          /* #0C0D10 */
-    --foreground: 40 15% 96%;          /* #F5F4F0 - warm off-white */
+    /* Warm Charcoal Near-Black */
+    --background: 30 6% 7%;             /* #11110F */
+    --foreground: 40 18% 93%;           /* #F2F0E9 */
 
-    --card: 220 12% 9%;               /* #14151A */
-    --card-foreground: 40 15% 96%;
+    --card: 30 5% 10%;
+    --card-foreground: 40 18% 93%;
 
-    --popover: 220 12% 9%;
-    --popover-foreground: 40 15% 96%;
+    --popover: 30 5% 10%;
+    --popover-foreground: 40 18% 93%;
 
-    /* Single Muted Sage/Teal Accent */
-    --primary: 168 50% 50%;            /* #3DB99F - refined sage/teal */
-    --primary-foreground: 220 14% 6%;
+    /* Muted Sage Accent */
+    --primary: 143 11% 57%;             /* #879B8F */
+    --primary-foreground: 30 6% 7%;
 
-    --secondary: 220 10% 12%;         /* #1B1D23 */
-    --secondary-foreground: 40 15% 96%;
+    --secondary: 30 4% 13%;
+    --secondary-foreground: 40 18% 93%;
 
-    --muted: 220 10% 12%;
-    --muted-foreground: 220 8% 62%;   /* #969AA3 - soft warm gray */
+    --muted: 30 4% 13%;
+    --muted-foreground: 40 4% 55%;      /* #8E8D86 */
 
-    --accent: 168 50% 50%;
-    --accent-foreground: 220 14% 6%;
+    --accent: 143 11% 57%;
+    --accent-foreground: 30 6% 7%;
 
     --destructive: 0 65% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 10% 14%;            /* #1E2027 */
-    --input: 220 10% 14%;
-    --ring: 168 50% 50%;
+    --border: 30 4% 16%;
+    --input: 30 4% 16%;
+    --ring: 143 11% 57%;
 
-    --radius: 0.5rem;
+    --radius: 0.375rem;
   }
 
   .dark {
-    --background: 220 14% 6%;
-    --foreground: 40 15% 96%;
-    --card: 220 12% 9%;
-    --card-foreground: 40 15% 96%;
-    --popover: 220 12% 9%;
-    --popover-foreground: 40 15% 96%;
-    --primary: 168 50% 50%;
-    --primary-foreground: 220 14% 6%;
-    --secondary: 220 10% 12%;
-    --secondary-foreground: 40 15% 96%;
-    --muted: 220 10% 12%;
-    --muted-foreground: 220 8% 62%;
-    --accent: 168 50% 50%;
-    --accent-foreground: 220 14% 6%;
-    --border: 220 10% 14%;
-    --input: 220 10% 14%;
-    --ring: 168 50% 50%;
+    --background: 30 6% 7%;
+    --foreground: 40 18% 93%;
+    --card: 30 5% 10%;
+    --card-foreground: 40 18% 93%;
+    --popover: 30 5% 10%;
+    --popover-foreground: 40 18% 93%;
+    --primary: 143 11% 57%;
+    --primary-foreground: 30 6% 7%;
+    --secondary: 30 4% 13%;
+    --secondary-foreground: 40 18% 93%;
+    --muted: 30 4% 13%;
+    --muted-foreground: 40 4% 55%;
+    --accent: 143 11% 57%;
+    --accent-foreground: 30 6% 7%;
+    --border: 30 4% 16%;
+    --input: 30 4% 16%;
+    --ring: 143 11% 57%;
   }
 }
 
@@ -73,21 +74,46 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased selection:bg-teal-400/20 selection:text-teal-200;
+    @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.2);
+    color: hsl(var(--foreground));
   }
 
   h1, h2, h3, h4, h5, h6 {
     text-wrap: balance;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
   }
 
   p, li, .text-pretty {
     text-wrap: pretty;
   }
+
+  /* Visible focus ring for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer utilities {
-  /* Marquee infinite scroll */
+  /* Marquee infinite scroll — slow editorial pace */
   @keyframes marquee {
     from {
       transform: translate3d(0, 0, 0);
@@ -100,7 +126,7 @@
   .animate-marquee {
     display: flex;
     width: max-content;
-    animation: marquee 38s linear infinite;
+    animation: marquee 45s linear infinite;
     will-change: transform;
   }
 
@@ -108,9 +134,20 @@
     animation-play-state: paused;
   }
 
-  /* Tactile architectural dot grid */
-  .dot-grid {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 28px 28px;
+  /* Subtle editorial line reveal */
+  @keyframes line-reveal {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .animate-line-reveal {
+    animation: line-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    transform-origin: left;
+  }
+
+  /* Scroll-driven progress bar for hero */
+  @keyframes scroll-progress {
+    from { width: 0%; }
+    to { width: 100%; }
   }
 }

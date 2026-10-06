@@ -7,52 +7,71 @@ export default function CurrentLearning() {
   return (
     <section
       id="continuing-development"
-      aria-label="Continuing Development"
-      className="py-16 md:py-20 border-b border-white/[0.08]"
+      aria-label="Expanding into AI/ML Engineering"
+      className="py-20 md:py-28 border-b border-foreground/[0.06] select-none"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
         <motion.div
-          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="space-y-6"
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="space-y-8"
         >
-          {/* Subtle Accent Line Header */}
+          {/* Header */}
           <div className="flex items-center gap-3">
-            <span className="w-6 h-[1.5px] bg-teal-400" />
-            <p className="text-xs font-mono tracking-widest text-teal-400 uppercase font-semibold">
-              Currently Learning
+            <span className="w-8 h-[1px] bg-[hsl(var(--primary))]" />
+            <span className="font-mono text-[11px] tracking-[0.2em] text-[hsl(var(--primary))] uppercase font-medium">
+              05 / Next Chapter
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+              Expanding into AI/ML
+            </h2>
+            <p className="text-sm text-muted-foreground font-light max-w-xl">
+              An intentional transition from production full-stack engineering into machine learning pipelines and applied AI.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-start pt-2">
-            {/* Col 1: Status & Duration */}
-            <div className="md:col-span-3 space-y-1">
-              <span className="font-mono text-xs sm:text-sm text-foreground font-semibold block">
+          {/* Visual Storytelling Transition Path */}
+          <div className="py-4">
+            <div className="inline-flex items-center gap-4 text-xs sm:text-sm font-mono border border-foreground/[0.08] bg-foreground/[0.02] px-4 py-2.5 rounded-sm">
+              <span className="text-foreground/90 font-medium">Full Stack Engineering</span>
+              <span className="text-[hsl(var(--primary))] font-bold">→</span>
+              <span className="text-[hsl(var(--primary))] font-semibold">AI / ML Engineering</span>
+            </div>
+          </div>
+
+          {/* Program Information Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 pt-4 border-t border-foreground/[0.06]">
+            {/* Column 1: Duration & Live Status */}
+            <div className="md:col-span-3 space-y-2">
+              <span className="font-mono text-sm text-foreground/90 font-medium block">
                 {continuingDevelopment.duration}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-mono text-xs text-teal-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
+              <span className="inline-flex items-center gap-2 font-mono text-xs text-[hsl(var(--primary))]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--primary))] animate-pulse" />
                 {continuingDevelopment.status}
               </span>
             </div>
 
-            {/* Col 2: Title & Institutions */}
+            {/* Column 2: Program & Institution */}
             <div className="md:col-span-4 space-y-1">
-              <h3 className="text-xl font-bold text-foreground tracking-tight">
-                {continuingDevelopment.title}
+              <h3 className="font-display text-lg font-bold text-foreground">
+                {continuingDevelopment.title} Program
               </h3>
-              <p className="text-sm font-medium text-foreground/90">
+              <p className="text-sm text-foreground/80 font-medium">
                 {continuingDevelopment.institution}
               </p>
-              <p className="text-xs font-mono text-muted-foreground">
-                {continuingDevelopment.program}
+              <p className="font-mono text-xs text-muted-foreground pt-1">
+                Funded by NAVTTC (National Vocational and Technical Training Commission)
               </p>
             </div>
 
-            {/* Col 3: Curriculum & Focus */}
-            <div className="md:col-span-5 text-sm text-muted-foreground leading-relaxed text-pretty">
+            {/* Column 3: Focus & Learning Scope */}
+            <div className="md:col-span-5 text-sm text-muted-foreground leading-relaxed font-light text-pretty">
               {continuingDevelopment.description}
             </div>
           </div>

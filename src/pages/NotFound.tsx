@@ -17,18 +17,18 @@ export default function NotFound() {
         <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
           404 / Page Not Found
         </span>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">
           The requested page could not be located.
         </h1>
-        <p className="text-sm text-muted-foreground leading-relaxed">
+        <p className="text-sm text-muted-foreground leading-relaxed font-light">
           The link you followed may be broken or the page may have been moved.
         </p>
         <div className="pt-2">
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-foreground bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 hover:border-white/25 rounded-md transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-mono font-medium text-foreground bg-foreground/[0.04] hover:bg-foreground/[0.08] border border-foreground/10 rounded-sm transition-all"
           >
-            <ArrowLeft size={13} className="text-teal-400" />
+            <ArrowLeft size={13} className="text-[hsl(var(--primary))]" />
             <span>Return to Portfolio</span>
           </Link>
         </div>

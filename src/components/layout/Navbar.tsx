@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileDown, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { profile } from "@/data/siteData";
 
 const navItems = [
@@ -20,12 +20,12 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 30);
 
-      // Section tracking for active nav state
-      const sections = ["projects", "experience", "skills", "about", "contact"];
+      const sections = ["contact", "about", "skills", "experience", "projects"];
       const scrollPosition = window.scrollY + 200;
 
+      let found = false;
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -33,11 +33,12 @@ export default function Navbar() {
           const height = el.offsetHeight;
           if (scrollPosition >= top && scrollPosition < top + height) {
             setActiveSection(section);
+            found = true;
             break;
           }
         }
       }
-      if (window.scrollY < 200) {
+      if (!found && window.scrollY < 200) {
         setActiveSection("hero");
       }
     };
@@ -46,42 +47,51 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
-    setMobileMenuOpen(false);
-    if (href.startsWith("/#") && location.pathname === "/") {
-      const elementId = href.replace("/#", "");
-      const target = document.getElementById(elementId);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
     }
-  };
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  const handleNavClick = useCallback(
+    (href: string) => {
+      setMobileMenuOpen(false);
+      if (href.startsWith("/#") && location.pathname === "/") {
+        const elementId = href.replace("/#", "");
+        const target = document.getElementById(elementId);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    },
+    [location.pathname]
+  );
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/90 backdrop-blur-md border-b border-white/[0.08]"
-          : "bg-background/60 backdrop-blur-sm border-b border-transparent"
+          ? "bg-[hsl(var(--background))]/90 backdrop-blur-lg border-b border-foreground/[0.06]"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
         <Link
           to="/"
-          className="group flex items-center gap-2.5 text-foreground"
+          className="font-display text-sm sm:text-base font-semibold tracking-tight text-foreground hover:opacity-80 transition-opacity"
         >
-          <span className="font-semibold text-sm sm:text-base tracking-tight text-foreground hover:text-white transition-colors">
-            {profile.name}
-          </span>
-          <span className="text-white/20 text-xs hidden md:inline">/</span>
-          <span className="text-xs text-muted-foreground hidden md:inline font-normal">
-            Full Stack · AI/ML
-          </span>
+          Muhammad Usman
         </Link>
 
-        {/* Desktop Nav Items */}
-        <nav className="hidden md:flex items-center gap-7">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
           {navItems.map((item) => {
             const sectionName = item.href.replace("/#", "");
             const isActive = activeSection === sectionName && location.pathname === "/";
@@ -96,106 +106,106 @@ export default function Navbar() {
                     handleNavClick(item.href);
                   }
                 }}
-                className={`relative text-xs tracking-wide transition-colors py-1 ${
+                className={`relative text-[13px] tracking-wide transition-colors py-1 ${
                   isActive
-                    ? "text-foreground font-medium"
+                    ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {item.label}
                 {isActive && (
-                  <span className="absolute -bottom-1.5 left-0 right-0 h-[1.5px] bg-teal-400/80 rounded-full" />
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[hsl(var(--primary))] rounded-full"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
                 )}
               </a>
             );
           })}
+
+          {/* Resume link */}
+          <a
+            href={profile.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[13px] tracking-wide text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Resume
+          </a>
         </nav>
 
-        {/* Right CTA */}
-        <div className="hidden sm:flex items-center gap-4">
-          <a
-            href={profile.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub Profile"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            GitHub
-          </a>
-          <a
-            href={profile.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn Profile"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            LinkedIn
-          </a>
+        {/* Mobile: Resume + Menu Toggle */}
+        <div className="flex items-center gap-3 md:hidden">
           <a
             href={profile.resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-foreground bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 hover:border-white/25 rounded-md transition-all"
-          >
-            <FileDown size={13} className="text-teal-400" />
-            <span>Resume</span>
-          </a>
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <div className="flex items-center gap-2.5 sm:hidden">
-          <a
-            href={profile.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-2.5 py-1 text-xs font-medium text-foreground bg-white/[0.06] border border-white/10 rounded-md"
+            className="font-mono text-[11px] text-muted-foreground hover:text-foreground transition-colors"
           >
             Resume
           </a>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Toggle navigation menu"
+            className="p-1.5 text-foreground"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Full-Screen Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+          <motion.nav
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="sm:hidden border-b border-white/[0.08] bg-background/95 backdrop-blur-xl px-6 py-4 flex flex-col gap-2.5"
+            className="md:hidden fixed inset-0 top-16 bg-[hsl(var(--background))]/98 backdrop-blur-xl z-40 flex flex-col justify-center px-8"
+            aria-label="Mobile navigation"
           >
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => {
-                  if (location.pathname === "/" && item.href.startsWith("/#")) {
-                    e.preventDefault();
-                    handleNavClick(item.href);
-                  } else {
-                    setMobileMenuOpen(false);
-                  }
-                }}
-                className="py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
-            <div className="flex items-center justify-between pt-3 mt-1 border-t border-white/[0.06] text-xs">
+            <div className="space-y-1">
+              {navItems.map((item, index) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.3 }}
+                >
+                  <a
+                    href={item.href}
+                    onClick={(e) => {
+                      if (location.pathname === "/" && item.href.startsWith("/#")) {
+                        e.preventDefault();
+                        handleNavClick(item.href);
+                      } else {
+                        setMobileMenuOpen(false);
+                      }
+                    }}
+                    className="block py-3 font-display text-2xl font-semibold text-foreground hover:text-[hsl(var(--primary))] transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Mobile footer links */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="mt-12 pt-6 border-t border-foreground/[0.08] flex flex-wrap gap-6 text-sm text-muted-foreground"
+            >
               <a
                 href={profile.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground"
+                className="hover:text-foreground transition-colors"
               >
                 GitHub
               </a>
@@ -203,18 +213,18 @@ export default function Navbar() {
                 href={profile.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground"
+                className="hover:text-foreground transition-colors"
               >
                 LinkedIn
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                className="text-muted-foreground hover:text-foreground"
+                className="hover:text-foreground transition-colors"
               >
                 {profile.email}
               </a>
-            </div>
-          </motion.div>
+            </motion.div>
+          </motion.nav>
         )}
       </AnimatePresence>
     </header>

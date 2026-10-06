@@ -70,7 +70,7 @@ export const profile = {
 };
 
 export const siteMeta = {
-  title: "Muhammad Usman — Full Stack Software Engineer | AI/ML Transition",
+  title: "Muhammad Usman — Full Stack Software Engineer | AI/ML Engineering",
   description:
     "Muhammad Usman is a Full Stack Software Engineer with 4+ years of experience in React, Next.js, Node.js, Python, and FastAPI, actively transitioning into AI/ML Engineering.",
   image: "/social-preview.jpeg",
